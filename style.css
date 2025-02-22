@@ -1,0 +1,201 @@
+/*
+Theme Name: Petopia
+Theme URI: http://example.com/animal-shelter
+Author: Pavlo
+Description: Custom theme for animal shelter website
+Version: 1.0
+*/
+
+/* Reset and Base Styles */
+:root {
+    --primary-color: #4A90E2;
+    --secondary-color: #F5A623;
+    --text-color: #333333;
+    --light-gray: #F8F9FA;
+    --border-radius: 8px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+}
+
+/* Header Styles */
+.site-header {
+    background: white;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+}
+
+.header-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo-wrapper img {
+    max-height: 60px;
+    width: auto;
+}
+
+/* Navigation */
+.main-navigation {
+    display: flex;
+    align-items: center;
+}
+
+.menu-toggle {
+    display: none;
+}
+
+.primary-menu-container ul {
+    display: flex;
+    list-style: none;
+    gap: 2rem;
+}
+
+.primary-menu-container a {
+    text-decoration: none;
+    color: var(--text-color);
+    font-weight: 500;
+}
+
+/* Hero Section */
+.hero-section {
+    padding: 8rem 2rem 4rem;
+    background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('../images/hero-bg.jpg');
+    background-size: cover;
+    background-position: center;
+    color: white;
+    text-align: center;
+}
+
+.hero-content {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+/* Animals Grid */
+.animals-section {
+    padding: 4rem 2rem;
+    background: var(--light-gray);
+}
+
+.animals-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+/* Footer Styles */
+.site-footer {
+    background: #333;
+    color: white;
+    padding: 4rem 2rem 2rem;
+}
+
+.footer-widgets {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .menu-toggle {
+        display: block;
+    }
+
+    .primary-menu-container {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: white;
+        padding: 1rem;
+        display: none;
+    }
+
+    .primary-menu-container.active {
+        display: block;
+    }
+
+    .primary-menu-container ul {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .hero-buttons {
+        flex-direction: column;
+    }
+
+    .animals-filter {
+        flex-direction: column;
+        gap: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-section {
+        padding: 6rem 1rem 3rem;
+    }
+
+    .section-container {
+        padding: 2rem 1rem;
+    }
+
+    .footer-widgets {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Buttons */
+.primary-button, .secondary-button {
+    display: inline-block;
+    padding: 1rem 2rem;
+    border-radius: var(--border-radius);
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.primary-button {
+    background: var(--primary-color);
+    color: white;
+}
+
+.secondary-button {
+    background: transparent;
+    border: 2px solid white;
+    color: white;
+}
+
+/* Utility Classes */
+.section-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
