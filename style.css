@@ -1,0 +1,35 @@
+/*
+Theme Name: Petopia
+Theme URI: https://example.com/petopia/
+Author: Ваше ім'я
+Author URI: https://example.com/
+Description: Тема сайту-візитки для притулку тварин Petopia
+Version: 1.0
+License: GNU General Public License v2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: petopia
+Tags: animals, shelter, pets, adoption
+*/
+
+/* Імпорт інших стилів */
+@import url('assets/css/main.css');
+@import url('assets/css/responsive.css');
+
+/* Базові стилі */
+body {
+    font-family: 'Open Sans', sans-serif;
+    color: #333;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+header {
+    background: #f8f8f8;
+    padding: 20px 0;
+    text-align: center;
+}
