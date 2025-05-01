@@ -1,25 +1,41 @@
 /*
-Theme Name: Petopia
-Theme URI: https://example.com/petopia/
-Author: Ваше ім'я
+Theme Name: Pet
+Theme URI: https://example.com/pet-theme/
+Author: Pavlo
 Author URI: https://example.com/
-Description: Тема сайту-візитки для притулку тварин Petopia
+Description: Theme for animal shelter Petopia
 Version: 1.0
 License: GNU General Public License v2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
-Text Domain: petopia
-Tags: animals, shelter, pets, adoption
+Text Domain: pet
+Tags: shelter, animals, pets, adoption, charity
 */
 
-/* Імпорт інших стилів */
-@import url('assets/css/main.css');
-@import url('assets/css/responsive.css');
+/* Скидання стилів */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-/* Базові стилі */
 body {
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Inter', Arial, sans-serif;
     color: #333;
     line-height: 1.6;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+ul {
+    list-style: none;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
 }
 
 .container {
@@ -28,8 +44,678 @@ body {
     padding: 0 15px;
 }
 
-header {
-    background: #f8f8f8;
-    padding: 20px 0;
+/* Кнопки */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.btn-primary {
+    background-color: #FF751F;
+    color: white;
+    border: none;
+}
+
+.btn-primary:hover {
+    background-color: #E56A1C;
+}
+
+.btn-outline {
+    background-color: transparent;
+    border: 2px solid #FF751F;
+    color: #FF751F;
+}
+
+.btn-outline:hover {
+    background-color: rgba(255, 117, 31, 0.1);
+}
+
+/* Заголовки */
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 700;
+    margin-bottom: 1rem;
+    line-height: 1.2;
+}
+
+h1 {
+    font-size: 2.5rem;
+}
+
+h2 {
+    font-size: 2rem;
+    margin-bottom: 2rem;
     text-align: center;
 }
+
+/* Хедер */
+.site-header {
+    padding: 15px 0;
+    background-color: #fff;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.site-logo {
+    display: flex;
+    align-items: center;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #333;
+}
+
+.main-nav ul {
+    display: flex;
+    gap: 25px;
+}
+
+.main-nav a {
+    font-weight: 500;
+}
+
+.main-nav a:hover {
+    color: #FF751F;
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.language-switcher {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+/* Головний банер */
+.hero-section {
+    background: linear-gradient(to right, #fff 50%, #E3F5F6 50%);
+    padding: 50px 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.hero-content {
+    flex: 1;
+    max-width: 500px;
+}
+
+.hero-title {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.hero-description {
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+    color: #666;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 15px;
+}
+
+.hero-image {
+    flex: 1;
+    text-align: right;
+}
+
+/* Статистика */
+.stats-section {
+    padding: 50px 0;
+    background-color: #fff;
+}
+
+.stats-grid {
+    display: flex;
+    justify-content: space-between;
+    text-align: center;
+}
+
+.stat-item {
+    flex: 1;
+}
+
+.stat-number {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #FF751F;
+    margin-bottom: 10px;
+}
+
+.stat-label {
+    color: #666;
+}
+
+/* Секція тварин */
+.animals-section {
+    padding: 50px 0;
+    background-color: #f9f9f9;
+}
+
+.section-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.animals-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    margin-bottom: 30px;
+}
+
+.animal-card {
+    background-color: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+}
+
+.animal-image {
+    height: 200px;
+    overflow: hidden;
+    position: relative;
+}
+
+.animal-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.animal-tag {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: #FF751F;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 0.8rem;
+}
+
+.animal-info {
+    padding: 20px;
+}
+
+.animal-name {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+}
+
+.animal-meta {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 15px;
+}
+
+.animal-meta-item {
+    background-color: #f5f5f5;
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-size: 0.8rem;
+}
+
+.animal-description {
+    margin-bottom: 15px;
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.see-more-btn {
+    text-align: center;
+    margin-top: 30px;
+}
+
+/* Про притулок */
+.about-section {
+    padding: 50px 0;
+    background-color: #E3F5F6;
+}
+
+.about-inner {
+    display: flex;
+    align-items: center;
+    gap: 50px;
+}
+
+.about-content {
+    flex: 2;
+}
+
+.about-image {
+    flex: 1;
+}
+
+/* Система монет */
+.coins-section {
+    padding: 50px 0;
+    background-color: #f9f9f9;
+}
+
+.coins-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+}
+
+.coin-card {
+    text-align: center;
+    padding: 30px;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+}
+
+.coin-icon {
+    margin-bottom: 20px;
+    color: #FF751F;
+    font-size: 2rem;
+}
+
+.coin-title {
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+}
+
+.coin-description {
+    color: #666;
+    font-size: 0.9rem;
+}
+
+/* Магазин винагород */
+.rewards-section {
+    padding: 50px 0;
+    background-color: #fff;
+}
+
+.rewards-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+}
+
+.reward-card {
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+}
+
+.reward-image {
+    height: 200px;
+}
+
+.reward-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.reward-info {
+    padding: 20px;
+    background-color: #fff;
+}
+
+.reward-title {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+}
+
+.reward-price {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-bottom: 15px;
+    color: #FF751F;
+    font-weight: 600;
+}
+
+/* Форма підтримки */
+.support-section {
+    padding: 50px 0;
+    background-color: #f9f9f9;
+}
+
+.support-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 50px;
+}
+
+.support-form {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+}
+
+.support-options {
+    background-color: #E3F5F6;
+    padding: 30px;
+    border-radius: 12px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 500;
+}
+
+.form-control {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
+
+.amount-buttons {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.amount-btn {
+    flex: 1;
+    padding: 10px;
+    background-color: #f5f5f5;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.amount-btn.active {
+    background-color: #FF751F;
+    color: white;
+    border-color: #FF751F;
+}
+
+.option-card {
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+}
+
+.option-title {
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+/* Контакти */
+.contact-section {
+    padding: 50px 0;
+    background-color: #fff;
+}
+
+.contact-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 50px;
+}
+
+.contact-info h3 {
+    margin-bottom: 20px;
+}
+
+.contact-detail {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.contact-form .form-group:last-child {
+    margin-bottom: 0;
+}
+
+/* Футер */
+.site-footer {
+    padding: 50px 0 20px;
+    background-color: #222;
+    color: #fff;
+}
+
+.footer-inner {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 30px;
+    margin-bottom: 30px;
+}
+
+.footer-logo {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 15px;
+}
+
+.footer-text {
+    color: #ccc;
+    margin-bottom: 15px;
+}
+
+.footer-title {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+}
+
+.footer-links li {
+    margin-bottom: 10px;
+}
+
+.footer-links a:hover {
+    color: #FF751F;
+}
+
+.copyright {
+    text-align: center;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    color: #ccc;
+    font-size: 0.9rem;
+}
+
+
+/* Add to your existing style.css file */
+
+/* Page Header */
+.page-header {
+    background-color: var(--accent-bg);
+    padding: 4rem 0;
+    text-align: center;
+    margin-bottom: 4rem;
+}
+
+.page-title {
+    font-size: 3rem;
+    color: var(--text-color);
+    margin-bottom: 1rem;
+}
+
+.page-description {
+    font-size: 1.2rem;
+    color: #666;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* Mobile Menu Styles */
+.mobile-menu-btn {
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 30px;
+    height: 20px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    z-index: 1000;
+}
+
+.mobile-menu-btn span {
+    display: block;
+    width: 100%;
+    height: 2px;
+    background-color: var(--text-color);
+    transition: all 0.3s ease;
+}
+
+.mobile-menu-btn.active span:nth-child(1) {
+    transform: translateY(9px) rotate(45deg);
+}
+
+.mobile-menu-btn.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.mobile-menu-btn.active span:nth-child(3) {
+    transform: translateY(-9px) rotate(-45deg);
+}
+
+.mobile-menu {
+    position: fixed;
+    top: 0;
+    right: -300px;
+    width: 300px;
+    height: 100vh;
+    background-color: white;
+    padding: 80px 30px 30px;
+    transition: right 0.3s ease;
+    z-index: 999;
+    box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+}
+
+.mobile-menu.active {
+    right: 0;
+}
+
+.mobile-menu-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    z-index: 998;
+}
+
+.mobile-menu-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.mobile-menu .nav-menu {
+    flex-direction: column;
+    gap: 20px;
+}
+
+.mobile-menu .nav-menu a {
+    font-size: 1.2rem;
+    padding: 10px 0;
+    display: block;
+}
+
+body.menu-open {
+    overflow: hidden;
+}
+
+/* Header scroll behavior */
+.site-header {
+    transition: transform 0.3s ease;
+}
+
+.header-hidden {
+    transform: translateY(-100%);
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .mobile-menu-btn {
+        display: flex;
+    }
+
+    .main-nav {
+        display: none;
+    }
+
+    .page-title {
+        font-size: 2.5rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .page-header {
+        padding: 3rem 0;
+    }
+
+    .page-title {
+        font-size: 2rem;
+    }
+}
+@media (max-width: 1200px) {
+    .animals-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .coins-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .rewards-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .support-inner {
+        grid-template-columns: 1fr;
+    }
+
+    .contact-inner {
+        grid-template-columns: 1fr;
+    }
+}
+@media (max-width: 992px) {
+    .animals-grid {
+        grid-template-columns: repeat(1, 1fr);
+    }
+
+    .coins-grid {
+        grid-template-columns: repeat(1, 1fr);
+    }
+
+    .rewards-grid {
+        grid-template-columns: repeat(1, 1fr);
+    }
+}
+
+
+
