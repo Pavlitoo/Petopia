@@ -114,6 +114,14 @@ function pet_scripts()
         wp_enqueue_script('pet-donations', PET_THEME_URI . '/assets/js/donations.js', array('jquery'), PET_THEME_VERSION, true);
     }
 
+    // Add contact form script
+    if (is_page_template('page-contact.php')) {
+        wp_enqueue_script('pet-contact', get_template_directory_uri() . '/assets/js/contact.js', array('jquery'), '1.0.0', true);
+        wp_localize_script('pet-contact', 'petData', array(
+            'ajaxUrl' => admin_url('admin-ajax.php')
+        ));
+    }
+
     // Add help.js for the help page
     if (is_page_template('page-help.php')) {
         wp_enqueue_script('pet-help', get_template_directory_uri() . '/assets/js/help.js', array('jquery'), '1.0.0', true);
@@ -333,3 +341,158 @@ function pet_enable_comments_for_animals($post_id, $post, $update)
     }
 }
 add_action('wp_insert_post', 'pet_enable_comments_for_animals', 10, 3);
+
+
+function pet_enqueue_share_scripts()
+{
+    if (is_page_template('page-templates/page-share-info.php')) {
+        wp_enqueue_script('pet-share-stories', get_template_directory_uri() . '/assets/js/share-stories.js', array('jquery'), '1.0.0', true);
+    }
+}
+add_action('wp_enqueue_scripts', 'pet_enqueue_share_scripts');
+
+
+
+
+
+/**
+ * Handle volunteer application submission
+ */
+function pet_handle_volunteer_application()
+{
+    check_ajax_referer('pet-volunteer-nonce', 'nonce');
+
+    if (!isset($_POST['name']) || !isset($_POST['email']) || !isset($_POST['phone'])) {
+        wp_send_json_error(array('message' => 'Missing required fields'));
+        return;
+    }
+
+    $name = sanitize_text_field($_POST['name']);
+    $email = sanitize_email($_POST['email']);
+    $phone = sanitize_text_field($_POST['phone']);
+    $experience = sanitize_textarea_field($_POST['experience']);
+    $availability = sanitize_text_field($_POST['availability']);
+
+    // Create volunteer application post
+    $post_data = array(
+        'post_title'    => sprintf('Заявка від %s', $name),
+        'post_type'     => 'volunteer_app',
+        'post_status'   => 'publish'
+    );
+
+    $post_id = wp_insert_post($post_data);
+
+    if (is_wp_error($post_id)) {
+        wp_send_json_error(array('message' => 'Error creating application'));
+        return;
+    }
+
+    // Save meta data
+    update_post_meta($post_id, 'volunteer_name', $name);
+    update_post_meta($post_id, 'volunteer_email', $email);
+    update_post_meta($post_id, 'volunteer_phone', $phone);
+    update_post_meta($post_id, 'volunteer_experience', $experience);
+    update_post_meta($post_id, 'volunteer_availability', $availability);
+    update_post_meta($post_id, 'volunteer_status', 'new');
+
+    // Send notification email to admin
+    $admin_email = get_option('admin_email');
+    $subject = sprintf('Нова заявка на волонтерство від %s', $name);
+    $message = sprintf(
+        "Нова заявка на волонтерство:\n\nІм'я: %s\nEmail: %s\nТелефон: %s\nДоступність: %s\n\nДосвід:\n%s",
+        $name,
+        $email,
+        $phone,
+        $availability,
+        $experience
+    );
+
+    wp_mail($admin_email, $subject, $message);
+
+    wp_send_json_success(array(
+        'message' => 'Application submitted successfully'
+    ));
+}
+add_action('wp_ajax_submit_volunteer_application', 'pet_handle_volunteer_application');
+add_action('wp_ajax_nopriv_submit_volunteer_application', 'pet_handle_volunteer_application');
+
+/**
+ * Enqueue volunteer form script
+ */
+function pet_enqueue_volunteer_script()
+{
+    if (is_page_template('page-templates/page-volunteer-guide.php')) {
+        wp_enqueue_script('pet-volunteer-form', get_template_directory_uri() . '/assets/js/volunteer-form.js', array('jquery'), '1.0.0', true);
+        wp_localize_script('pet-volunteer-form', 'volunteerData', array(
+            'ajaxUrl' => admin_url('admin-ajax.php'),
+            'nonce' => wp_create_nonce('pet-volunteer-nonce')
+        ));
+    }
+}
+add_action('wp_enqueue_scripts', 'pet_enqueue_volunteer_script');
+
+
+
+
+
+function pet_handle_contact_form()
+{
+    check_ajax_referer('pet_contact_nonce', 'nonce');
+
+    $name = sanitize_text_field($_POST['name']);
+    $email = sanitize_email($_POST['email']);
+    $subject = sanitize_text_field($_POST['subject']);
+    $message = sanitize_textarea_field($_POST['message']);
+
+    // Create post
+    $post_data = array(
+        'post_title'    => wp_sprintf('Повідомлення від %s', $name),
+        'post_type'     => 'contact_submission',
+        'post_status'   => 'publish'
+    );
+
+    $post_id = wp_insert_post($post_data);
+
+    if (is_wp_error($post_id)) {
+        wp_send_json_error(array('message' => 'Error creating submission'));
+        return;
+    }
+
+    // Save meta data
+    update_post_meta($post_id, 'contact_name', $name);
+    update_post_meta($post_id, 'contact_email', $email);
+    update_post_meta($post_id, 'contact_subject', $subject);
+    update_post_meta($post_id, 'contact_message', $message);
+
+    // Send email notification
+    $admin_email = get_option('admin_email');
+    $email_subject = sprintf('Нове повідомлення від %s', $name);
+    $email_message = sprintf(
+        "Нове повідомлення через контактну форму:\n\nІм'я: %s\nEmail: %s\nТема: %s\n\nПовідомлення:\n%s",
+        $name,
+        $email,
+        $subject,
+        $message
+    );
+
+    wp_mail($admin_email, $email_subject, $email_message);
+
+    wp_send_json_success(array(
+        'message' => 'Повідомлення успішно надіслано'
+    ));
+}
+add_action('wp_ajax_pet_contact_form', 'pet_handle_contact_form');
+add_action('wp_ajax_nopriv_pet_contact_form', 'pet_handle_contact_form');
+
+
+
+
+if (function_exists('acf_add_options_page')) {
+    acf_add_options_page(array(
+        'page_title' => 'Налаштування теми',
+        'menu_title' => 'Налаштування теми',
+        'menu_slug' => 'theme-general-settings',
+        'capability' => 'edit_posts',
+        'redirect' => false
+    ));
+}

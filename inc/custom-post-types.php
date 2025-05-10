@@ -37,6 +37,82 @@ function pet_register_post_types()
         'use_featured_image'    => _x('Використовувати як фото тварини', 'Overrides the "Use as featured image" phrase', 'pet'),
     );
 
+    $volunteer_labels = array(
+        'name'                  => _x('Заявки волонтерів', 'Post type general name', 'pet'),
+        'singular_name'         => _x('Заявка волонтера', 'Post type singular name', 'pet'),
+        'menu_name'             => _x('Заявки волонтерів', 'Admin Menu text', 'pet'),
+        'add_new'              => __('Додати нову', 'pet'),
+        'add_new_item'         => __('Додати нову заявку', 'pet'),
+        'edit_item'            => __('Редагувати заявку', 'pet'),
+        'view_item'            => __('Переглянути заявку', 'pet'),
+        'all_items'            => __('Всі заявки', 'pet'),
+        'search_items'         => __('Шукати заявки', 'pet'),
+        'not_found'            => __('Заявок не знайдено', 'pet'),
+    );
+
+    $volunteer_args = array(
+        'labels'             => $volunteer_labels,
+        'public'             => false,
+        'publicly_queryable' => false,
+        'show_ui'            => true,
+        'show_in_menu'       => true,
+        'query_var'          => true,
+        'rewrite'            => array('slug' => 'volunteer-application'),
+        'capability_type'    => 'post',
+        'has_archive'        => false,
+        'hierarchical'       => false,
+        'menu_position'      => 25,
+        'menu_icon'          => 'dashicons-groups',
+        'supports'           => array('title'),
+    );
+
+    register_post_type('volunteer_app', $volunteer_args);
+
+    // Add meta boxes for volunteer applications
+    add_action('add_meta_boxes', function () {
+        add_meta_box(
+            'volunteer_details',
+            __('Деталі заявки', 'pet'),
+            'pet_volunteer_details_meta_box',
+            'volunteer_app',
+            'normal',
+            'high'
+        );
+    });
+
+    $contact_labels = array(
+        'name'                  => _x('Повідомлення', 'Post type general name', 'pet'),
+        'singular_name'         => _x('Повідомлення', 'Post type singular name', 'pet'),
+        'menu_name'             => _x('Повідомлення', 'Admin Menu text', 'pet'),
+        'name_admin_bar'        => _x('Повідомлення', 'Add New on Toolbar', 'pet'),
+        'add_new'              => __('Додати нове', 'pet'),
+        'add_new_item'         => __('Додати нове повідомлення', 'pet'),
+        'new_item'             => __('Нове повідомлення', 'pet'),
+        'edit_item'            => __('Редагувати повідомлення', 'pet'),
+        'view_item'            => __('Переглянути повідомлення', 'pet'),
+        'all_items'            => __('Всі повідомлення', 'pet'),
+        'search_items'         => __('Шукати повідомлення', 'pet'),
+        'not_found'            => __('Повідомлень не знайдено', 'pet'),
+    );
+
+    $contact_args = array(
+        'labels'             => $contact_labels,
+        'public'             => false,
+        'publicly_queryable' => false,
+        'show_ui'            => true,
+        'show_in_menu'       => true,
+        'query_var'          => true,
+        'rewrite'            => array('slug' => 'contact-submission'),
+        'capability_type'    => 'post',
+        'has_archive'        => false,
+        'hierarchical'       => false,
+        'menu_position'      => 30,
+        'menu_icon'          => 'dashicons-email-alt',
+        'supports'           => array('title'),
+    );
+
+    register_post_type('contact_submission', $contact_args);
+
     $args = array(
         'labels'             => $labels,
         'public'             => true,
@@ -119,6 +195,154 @@ function pet_register_post_types()
     register_taxonomy('animal_category', array('animal'), $tax_args);
 }
 add_action('init', 'pet_register_post_types');
+
+// Add custom columns to volunteer applications list
+function pet_add_volunteer_columns($columns)
+{
+    $columns['volunteer_name'] = __('Ім\'я', 'pet');
+    $columns['volunteer_email'] = __('Email', 'pet');
+    $columns['volunteer_phone'] = __('Телефон', 'pet');
+    $columns['volunteer_availability'] = __('Доступність', 'pet');
+    return $columns;
+}
+add_filter('manage_volunteer_app_posts_columns', 'pet_add_volunteer_columns');
+
+// Fill custom columns for volunteer applications
+function pet_fill_volunteer_columns($column, $post_id)
+{
+    switch ($column) {
+        case 'volunteer_name':
+            echo esc_html(get_post_meta($post_id, 'volunteer_name', true));
+            break;
+        case 'volunteer_email':
+            echo esc_html(get_post_meta($post_id, 'volunteer_email', true));
+            break;
+        case 'volunteer_phone':
+            echo esc_html(get_post_meta($post_id, 'volunteer_phone', true));
+            break;
+        case 'volunteer_availability':
+            echo esc_html(get_post_meta($post_id, 'volunteer_availability', true));
+            break;
+    }
+}
+add_action('manage_volunteer_app_posts_custom_column', 'pet_fill_volunteer_columns', 10, 2);
+
+// Display volunteer details meta box
+function pet_volunteer_details_meta_box($post)
+{
+    $name = get_post_meta($post->ID, 'volunteer_name', true);
+    $email = get_post_meta($post->ID, 'volunteer_email', true);
+    $phone = get_post_meta($post->ID, 'volunteer_phone', true);
+    $experience = get_post_meta($post->ID, 'volunteer_experience', true);
+    $availability = get_post_meta($post->ID, 'volunteer_availability', true);
+?>
+    <div class="volunteer-details">
+        <p>
+            <strong><?php _e("Ім'я:", 'pet'); ?></strong>
+            <?php echo esc_html($name); ?>
+        </p>
+        <p>
+            <strong><?php _e('Email:', 'pet'); ?></strong>
+            <a href="mailto:<?php echo esc_attr($email); ?>"><?php echo esc_html($email); ?></a>
+        </p>
+        <p>
+            <strong><?php _e('Телефон:', 'pet'); ?></strong>
+            <?php echo esc_html($phone); ?>
+        </p>
+        <p>
+            <strong><?php _e('Досвід роботи з тваринами:', 'pet'); ?></strong>
+            <br>
+            <?php echo nl2br(esc_html($experience)); ?>
+        </p>
+        <p>
+            <strong><?php _e('Доступний час:', 'pet'); ?></strong>
+            <?php echo esc_html($availability); ?>
+        </p>
+    </div>
+<?php
+}
+
+function pet_add_contact_columns($columns)
+{
+    $columns['contact_email'] = __('Email', 'pet');
+    $columns['contact_subject'] = __('Тема', 'pet');
+    $columns['contact_message'] = __('Повідомлення', 'pet');
+    return $columns;
+}
+add_filter('manage_contact_submission_posts_columns', 'pet_add_contact_columns');
+
+/**
+ * Fill custom columns for contact submissions
+ */
+function pet_fill_contact_columns($column, $post_id)
+{
+    switch ($column) {
+        case 'contact_email':
+            echo esc_html(get_post_meta($post_id, 'contact_email', true));
+            break;
+        case 'contact_subject':
+            echo esc_html(get_post_meta($post_id, 'contact_subject', true));
+            break;
+        case 'contact_message':
+            $message = get_post_meta($post_id, 'contact_message', true);
+            echo wp_trim_words($message, 10);
+            break;
+    }
+}
+add_action('manage_contact_submission_posts_custom_column', 'pet_fill_contact_columns', 10, 2);
+
+/**
+ * Add meta boxes for contact submissions
+ */
+function pet_add_contact_meta_boxes()
+{
+    add_meta_box(
+        'contact_details',
+        __('Деталі повідомлення', 'pet'),
+        'pet_contact_details_meta_box',
+        'contact_submission',
+        'normal',
+        'high'
+    );
+}
+add_action('add_meta_boxes', 'pet_add_contact_meta_boxes');
+
+/**
+ * Display contact details meta box
+ */
+function pet_contact_details_meta_box($post)
+{
+    $name = get_post_meta($post->ID, 'contact_name', true);
+    $email = get_post_meta($post->ID, 'contact_email', true);
+    $subject = get_post_meta($post->ID, 'contact_subject', true);
+    $message = get_post_meta($post->ID, 'contact_message', true);
+?>
+    <div class="contact-details">
+        <p>
+            <strong><?php _e("Ім'я:", 'pet'); ?></strong>
+            <?php echo esc_html($name); ?>
+        </p>
+        <p>
+            <strong><?php _e('Email:', 'pet'); ?></strong>
+            <a href="mailto:<?php echo esc_attr($email); ?>"><?php echo esc_html($email); ?></a>
+        </p>
+        <p>
+            <strong><?php _e('Тема:', 'pet'); ?></strong>
+            <?php echo esc_html($subject); ?>
+        </p>
+        <p>
+            <strong><?php _e('Повідомлення:', 'pet'); ?></strong>
+            <br>
+            <?php echo nl2br(esc_html($message)); ?>
+        </p>
+    </div>
+
+<?php
+}
+
+
+
+
 
 /**
  * Register ACF fields for our custom post types

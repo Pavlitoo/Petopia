@@ -28,7 +28,7 @@ get_header();
                     <p><?php echo esc_html__('Ми віримо, що кожна тварина заслуговує на любов і турботу. Наша команда працює над тим, щоб забезпечити найкращі умови для наших підопічних.', 'pet'); ?></p>
                     <h2><?php echo esc_html__('Приєднуйтесь до нас', 'pet'); ?></h2>
                     <p><?php echo esc_html__('Ваша підтримка дуже важлива для нас. Ви можете допомогти, ставши волонтером або зробивши пожертву на наші потреби.', 'pet'); ?></p>
-                    <a href="<?php echo esc_url(home_url('/donate')); ?>" class="btn btn-primary"><?php echo esc_html__('Допомогти', 'pet'); ?></a>
+                    <a href="<?php echo esc_url(home_url('/допомогти')); ?>" class="btn btn-primary"><?php echo esc_html__('Допомогти', 'pet'); ?></a>
 
                 </div>
 
@@ -92,7 +92,7 @@ get_header();
             <div class="cta-content">
                 <h2><?php echo esc_html__('Приєднуйтесь до нас!', 'pet'); ?></h2>
                 <p><?php echo esc_html__('Станьте частиною нашої команди волонтерів та допомагайте рятувати тварин', 'pet'); ?></p>
-                <a href="#" class="btn btn-primary"><?php echo esc_html__('Стати волонтером', 'pet'); ?></a>
+                <a href="/volunteer-guide/" class="btn btn-primary"><?php echo esc_html__('Стати волонтером', 'pet'); ?></a>
             </div>
         </div>
     </section>

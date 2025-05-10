@@ -40,9 +40,9 @@
                     <h4><?php echo esc_html__('Розмір', 'pet'); ?></h4>
                     <select name="animal_size" class="form-control">
                         <option value=""><?php echo esc_html__('Будь-який розмір', 'pet'); ?></option>
-                        <option value="small"><?php echo esc_html__('Маленький', 'pet'); ?></option>
-                        <option value="medium"><?php echo esc_html__('Середній', 'pet'); ?></option>
-                        <option value="large"><?php echo esc_html__('Великий', 'pet'); ?></option>
+                        <option value="Маленький"><?php echo esc_html__('Маленький', 'pet'); ?></option>
+                        <option value="Середній"><?php echo esc_html__('Середній', 'pet'); ?></option>
+                        <option value="Великий"><?php echo esc_html__('Великий', 'pet'); ?></option>
                     </select>
                 </div>
             </div>
@@ -55,7 +55,7 @@
         <?php pet_display_animals(6); ?>
 
         <div class="see-more-btn">
-            <a href="<?php echo esc_url(get_post_type_archive_link('animal')); ?>" class="btn btn-outline">
+            <a href="<?php echo esc_url(home_url('/наші-тварини')); ?>" class="btn btn-outline">
                 <?php echo esc_html__('Переглянути всіх тварин', 'pet'); ?>
             </a>
         </div>

@@ -11,22 +11,22 @@
     <div class="container">
         <div class="stats-grid">
             <div class="stat-item">
-                <div class="stat-number" data-count="<?php echo esc_attr(get_theme_mod('pet_stats_rescued', '150')); ?>">0</div>
+                <div class="stat-number"><?php echo esc_html(get_field('rescued_animals', 'option')); ?></div>
                 <div class="stat-label"><?php echo esc_html__('Врятованих тварин', 'pet'); ?></div>
             </div>
 
             <div class="stat-item">
-                <div class="stat-number" data-count="<?php echo esc_attr(get_theme_mod('pet_stats_adopted', '100')); ?>">0</div>
-                <div class="stat-label"><?php echo esc_html__('Знайшли дім', 'pet'); ?></div>
-            </div>
-
-            <div class="stat-item">
-                <div class="stat-number" data-count="<?php echo esc_attr(get_theme_mod('pet_stats_volunteers', '50')); ?>">0</div>
+                <div class="stat-number"><?php echo esc_html(get_field('volunteers', 'option')); ?></div>
                 <div class="stat-label"><?php echo esc_html__('Волонтерів', 'pet'); ?></div>
             </div>
 
             <div class="stat-item">
-                <div class="stat-number" data-count="<?php echo esc_attr(get_theme_mod('pet_stats_donors', '200')); ?>">0</div>
+                <div class="stat-number"><?php echo esc_html(get_field('adopted_animals', 'option')); ?></div>
+                <div class="stat-label"><?php echo esc_html__('Прилаштованих тварин', 'pet'); ?></div>
+            </div>
+
+            <div class="stat-item">
+                <div class="stat-number"><?php echo esc_html(get_field('donors', 'option')); ?></div>
                 <div class="stat-label"><?php echo esc_html__('Донорів', 'pet'); ?></div>
             </div>
         </div>

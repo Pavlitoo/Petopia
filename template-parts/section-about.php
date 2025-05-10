@@ -15,7 +15,7 @@
                 <p><?php echo esc_html__('Притулок Petopia був заснований у 2015 році групою волонтерів, які прагнули дати безпритульним тваринам другий шанс на щасливе життя. З часом наш притулок виріс у велике співтовариство людей, яких об\'єднує любов до тварин.', 'pet'); ?></p>
                 <p><?php echo esc_html__('Ми забезпечуємо не тільки притулок для тварин, які опинилися на вулиці, але й надаємо їм медичний догляд, харчування і, найголовніше, ласку та турботу. Ми віримо, що кожна тварина заслуговує на люблячий дім.', 'pet'); ?></p>
                 <div class="about-actions">
-                    <a href="<?php echo esc_url(home_url('/page-templates/page-volunteer-guide')); ?>" class="btn btn-primary"><?php echo esc_html__('Стати волонтером', 'pet'); ?></a>
+                    <a href="<?php echo esc_url(get_template_directory_uri() . '/page-templates/page-volunteer-guide.php'); ?>" class="btn btn-primary"><?php echo esc_html__('Стати волонтером', 'pet'); ?></a>
                 </div>
             </div>
             <div class="about-image">

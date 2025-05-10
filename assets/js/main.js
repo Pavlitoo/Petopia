@@ -1,49 +1,110 @@
 document.addEventListener('DOMContentLoaded', function() {
+    // Page Loader
+    const loader = document.querySelector('.page-loader');
+    if (loader) {
+        window.addEventListener('load', function() {
+            loader.classList.add('hidden');
+        });
+    }
+
+    // Scroll to Top Button
+    const scrollToTopBtn = document.createElement('button');
+    scrollToTopBtn.className = 'scroll-to-top';
+    scrollToTopBtn.innerHTML = '&#8593;'; // Up arrow
+    document.body.appendChild(scrollToTopBtn);
+
+    // Show/hide scroll to top button
+    window.addEventListener('scroll', () => {
+        if (window.pageYOffset > 300) {
+            scrollToTopBtn.classList.add('show');
+        } else {
+            scrollToTopBtn.classList.remove('show');
+        }
+    });
+
+    // Scroll to top when button is clicked
+    scrollToTopBtn.addEventListener('click', () => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    });
+
+    // Smooth scroll to sections
+    const heroButtons = document.querySelectorAll('.hero-buttons a');
+    heroButtons.forEach(button => {
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href').substring(1);
+            const targetSection = document.getElementById(targetId);
+            
+            if (targetSection) {
+                targetSection.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        });
+    });
+
+    // Rest of your existing code...
+    // Mobile Menu
+    const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+    const mobileMenu = document.querySelector('.mobile-menu');
+    const mobileMenuOverlay = document.createElement('div');
+    mobileMenuOverlay.className = 'mobile-menu-overlay';
+    document.body.appendChild(mobileMenuOverlay);
+
+    if (mobileMenuBtn && mobileMenu) {
+        mobileMenuBtn.addEventListener('click', function() {
+            this.classList.toggle('active');
+            mobileMenu.classList.toggle('active');
+            mobileMenuOverlay.classList.toggle('active');
+            document.body.classList.toggle('menu-open');
+        });
+
+        mobileMenuOverlay.addEventListener('click', function() {
+            mobileMenuBtn.classList.remove('active');
+            mobileMenu.classList.remove('active');
+            mobileMenuOverlay.classList.remove('active');
+            document.body.classList.remove('menu-open');
+        });
+
+        // Close menu when clicking on a link
+        const menuLinks = mobileMenu.querySelectorAll('a');
+        menuLinks.forEach(link => {
+            link.addEventListener('click', function() {
+                mobileMenuBtn.classList.remove('active');
+                mobileMenu.classList.remove('active');
+                mobileMenuOverlay.classList.remove('active');
+                document.body.classList.remove('menu-open');
+            });
+        });
+    }
+
+    // Header scroll behavior
     const header = document.querySelector('.site-header');
     let lastScroll = 0;
     
     window.addEventListener('scroll', () => {
-        if (window.innerWidth <= 768) {
-            const currentScroll = window.pageYOffset;
-            
-            if (currentScroll > lastScroll && currentScroll > 100) {
-                header.classList.add('header-hidden');
-            } else {
-                header.classList.remove('header-hidden');
-            }
-            
-            lastScroll = currentScroll;
+        const currentScroll = window.pageYOffset;
+        
+        if (currentScroll > lastScroll && currentScroll > 100) {
+            header.classList.add('header-hidden');
         } else {
             header.classList.remove('header-hidden');
         }
+        
+        lastScroll = currentScroll;
     });
 
-    // Mobile Menu
-    const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
-    const mobileMenu = document.querySelector('.mobile-menu');
-    const overlay = document.querySelector('.mobile-menu-overlay');
-
-    if (mobileMenuBtn && mobileMenu && overlay) {
-        mobileMenuBtn.addEventListener('click', function() {
-            mobileMenu.classList.toggle('active');
-            overlay.classList.toggle('active');
-            mobileMenuBtn.classList.toggle('active');
-            document.body.classList.toggle('menu-open');
-        });
-
-        overlay.addEventListener('click', function() {
-            mobileMenu.classList.remove('active');
-            overlay.classList.remove('active');
-            mobileMenuBtn.classList.remove('active');
-            document.body.classList.remove('menu-open');
+    // Initialize Counter-Up if jQuery is available
+    if (typeof jQuery !== 'undefined' && jQuery.fn.counterUp) {
+        jQuery('.stat-number').counterUp({
+            delay: 10,
+            time: 1000
         });
     }
-
-    // Initialize Counter-Up
-    jQuery('.stat-number').counterUp({
-        delay: 10,
-        time: 1000
-    });
 
     // Animal Filters
     const filterForm = document.querySelector('.animal-filters');

@@ -19,6 +19,14 @@
 <body <?php body_class(); ?>>
     <?php wp_body_open(); ?>
 
+    <!-- Page Loader -->
+    <div class="page-loader">
+        <div class="loader-content">
+            <div class="paw-print-loader"></div>
+            <p>Завантаження...</p>
+        </div>
+    </div>
+
     <header class="site-header">
         <div class="container">
             <div class="header-inner">
@@ -47,8 +55,6 @@
                     ));
                     ?>
                 </nav>
-
-
             </div>
         </div>
     </header>

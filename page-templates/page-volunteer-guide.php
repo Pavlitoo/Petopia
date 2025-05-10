@@ -63,7 +63,7 @@ get_header();
                     <li>Приступайте до волонтерства</li>
                 </ol>
 
-                <div class="cta-block">
+                <div class="volunteer-cta">
                     <h3><?php echo esc_html__('Готові приєднатися?', 'pet'); ?></h3>
                     <p><?php echo esc_html__('Заповніть анкету, і ми зв\'яжемося з вами протягом 24 годин', 'pet'); ?></p>
                     <a href="#volunteer-form" class="btn btn-primary"><?php echo esc_html__('Стати волонтером', 'pet'); ?></a>

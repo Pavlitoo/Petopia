@@ -24,26 +24,34 @@ get_header();
                     <h2 class="contact-title"><?php echo esc_html__('Як зв\'язатися з нами', 'pet'); ?></h2>
                     <p class="contact-description"><?php echo esc_html__('Маєте питання або хочете детальніше дізнатися про наших підопічних? Зв\'яжіться з нами будь-яким зручним способом.', 'pet'); ?></p>
 
-                    <div class="info-list">
-                        <div class="info-item">
-                            <span class="info-icon">📍</span>
-                            <div class="info-content">
-                                <h4><?php echo esc_html__('Адреса', 'pet'); ?></h4>
-                                <p>вул. Капуча 42, м. Київ, 03056</p>
+                    <div class="contact-cards">
+                        <div class="contact-card">
+                            <div class="card-icon">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div class="card-content">
+                                <h4>Адреса</h4>
+                                <p>вул. Юліана Матвійчука, 83а<br>Полтава, 36000</p>
                             </div>
                         </div>
-                        <div class="info-item">
-                            <span class="info-icon">📞</span>
-                            <div class="info-content">
-                                <h4><?php echo esc_html__('Телефон', 'pet'); ?></h4>
-                                <p>+38 (044) 123-45-67</p>
+
+                        <div class="contact-card">
+                            <div class="card-icon">
+                                <i class="fas fa-phone"></i>
+                            </div>
+                            <div class="card-content">
+                                <h4>Телефон</h4>
+                                <p><a href="tel:+380997071385">+380 99 707 1385</a></p>
                             </div>
                         </div>
-                        <div class="info-item">
-                            <span class="info-icon">✉️</span>
-                            <div class="info-content">
-                                <h4><?php echo esc_html__('Email', 'pet'); ?></h4>
-                                <p>info@petopia.org.ua</p>
+
+                        <div class="contact-card">
+                            <div class="card-icon">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div class="card-content">
+                                <h4>Email</h4>
+                                <p><a href="mailto:pasalugovij@gmail.com">pasalugovij@gmail.com</a></p>
                             </div>
                         </div>
                     </div>
@@ -64,7 +72,8 @@ get_header();
                 <div class="contact-form-wrapper">
                     <div class="form-card">
                         <h3><?php echo esc_html__('Надіслати повідомлення', 'pet'); ?></h3>
-                        <form class="contact-form" action="#" method="post">
+                        <form class="contact-form" id="contact-form">
+                            <?php wp_nonce_field('pet_contact_nonce', 'contact_nonce'); ?>
                             <div class="form-row">
                                 <div class="form-group">
                                     <label for="name"><?php echo esc_html__('Ваше ім\'я', 'pet'); ?></label>
@@ -101,7 +110,7 @@ get_header();
         <div class="container">
             <div class="map-wrapper">
                 <iframe
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d162757.72583917422!2d30.392608824587416!3d50.402033740964946!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40d4cf4ee15a4505%3A0x764931d2170146fe!2z0JrQuNGX0LIsIDAyMDAw!5e0!3m2!1suk!2sua!4v1699887149070!5m2!1suk!2sua"
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2585.873711410291!2d34.52553807692385!3d49.59066667147435!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40d82f9d8f0a3aa7%3A0x5f5fc606b370c5b8!2z0LLRg9C70LjRhtGPINCu0LvRltCw0L3QsCDQnNCw0YLQstGW0LnRh9GD0LrQsCwgODPQsCwg0J_QvtC70YLQsNCy0LAsINCf0L7Qu9GC0LDQstGB0YzQutCwINC-0LHQu9Cw0YHRgtGMLCAzNjAwMA!5e0!3m2!1suk!2sua!4v1701799552815!5m2!1suk!2sua"
                     width="100%"
                     height="450"
                     style="border:0;"
