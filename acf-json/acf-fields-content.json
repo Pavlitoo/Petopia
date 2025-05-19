@@ -1,0 +1,160 @@
+{
+    "key": "group_content",
+    "title": "Налаштування контенту",
+    "fields": [
+        {
+            "key": "field_hero_section",
+            "label": "Головний банер",
+            "name": "hero_section",
+            "type": "group",
+            "sub_fields": [
+                {
+                    "key": "field_hero_title",
+                    "label": "Заголовок",
+                    "name": "hero_title",
+                    "type": "text",
+                    "default_value": "Подаруйте дім, врятуйте життя"
+                },
+                {
+                    "key": "field_hero_description",
+                    "label": "Опис",
+                    "name": "hero_description",
+                    "type": "textarea",
+                    "default_value": "Притулок Petopia робить усе можливе, щоб врятувати життя безпритульних тварин. Допоможіть нашим чотирилапим друзям знайти новий дім!"
+                },
+                {
+                    "key": "field_hero_image",
+                    "label": "Зображення",
+                    "name": "hero_image",
+                    "type": "image",
+                    "return_format": "url"
+                },
+                {
+                    "key": "field_hero_button_primary",
+                    "label": "Текст основної кнопки",
+                    "name": "hero_button_primary",
+                    "type": "text",
+                    "default_value": "Шукаю друга"
+                },
+                {
+                    "key": "field_hero_button_secondary",
+                    "label": "Текст додаткової кнопки",
+                    "name": "hero_button_secondary",
+                    "type": "text",
+                    "default_value": "Зробити пожертву"
+                }
+            ]
+        },
+        {
+            "key": "field_about_section",
+            "label": "Про притулок",
+            "name": "about_section",
+            "type": "group",
+            "sub_fields": [
+                {
+                    "key": "field_about_title",
+                    "label": "Заголовок",
+                    "name": "about_title",
+                    "type": "text",
+                    "default_value": "Про притулок Petopia"
+                },
+                {
+                    "key": "field_about_content",
+                    "label": "Текст",
+                    "name": "about_content",
+                    "type": "wysiwyg",
+                    "default_value": "Притулок Petopia був заснований у 2015 році групою волонтерів, які прагнули дати безпритульним тваринам другий шанс на щасливе життя."
+                },
+                {
+                    "key": "field_about_image",
+                    "label": "Зображення",
+                    "name": "about_image",
+                    "type": "image",
+                    "return_format": "url"
+                },
+                {
+    "key": "field_about_button",
+    "label": "Кнопка",
+    "name": "about_button",
+    "type": "link",
+    "instructions": "Виберіть сторінку та текст кнопки",
+    "required": 1,
+    "return_format": "array"
+}
+
+            ]
+        },
+        {
+            "key": "field_contact_info",
+            "label": "Контактна інформація",
+            "name": "contact_info",
+            "type": "group",
+            "sub_fields": [
+                {
+                    "key": "field_contact_address",
+                    "label": "Адреса",
+                    "name": "contact_address",
+                    "type": "text",
+                    "default_value": "вул. Юліана Матвійчука, 83а, Полтава, 36000"
+                },
+                {
+                    "key": "field_contact_phone",
+                    "label": "Телефон",
+                    "name": "contact_phone",
+                    "type": "text",
+                    "default_value": "+380 99 707 1385"
+                },
+                {
+                    "key": "field_contact_email",
+                    "label": "Email",
+                    "name": "contact_email",
+                    "type": "email",
+                    "default_value": "pasalugovij@gmail.com"
+                },
+                {
+                    "key": "field_social_links",
+                    "label": "Соціальні мережі",
+                    "name": "social_links",
+                    "type": "repeater",
+                    "sub_fields": [
+                        {
+                            "key": "field_social_name",
+                            "label": "Назва",
+                            "name": "name",
+                            "type": "text"
+                        },
+                        {
+                            "key": "field_social_url",
+                            "label": "Посилання",
+                            "name": "url",
+                            "type": "url"
+                        },
+                        {
+                            "key": "field_social_icon",
+                            "label": "Іконка",
+                            "name": "icon",
+                            "type": "text"
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "options_page",
+                "operator": "==",
+                "value": "theme-general-settings"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "Налаштування контенту сайту"
+}

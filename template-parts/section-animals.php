@@ -1,3 +1,11 @@
+<?php
+
+/**
+ * Template part for displaying animals section
+ * @package Pet
+ */
+?>
+
 <section id="animals" class="animals-section">
     <div class="container">
         <div class="section-header">
@@ -17,32 +25,23 @@
                 </div>
 
                 <div class="filter-group">
-                    <h4><?php echo esc_html__('Вік', 'pet'); ?></h4>
-                    <select name="animal_age" class="form-control">
-                        <option value=""><?php echo esc_html__('Будь-який вік', 'pet'); ?></option>
-                        <option value="baby"><?php echo esc_html__('До 1 року', 'pet'); ?></option>
-                        <option value="young"><?php echo esc_html__('1-3 роки', 'pet'); ?></option>
-                        <option value="adult"><?php echo esc_html__('3-7 років', 'pet'); ?></option>
-                        <option value="senior"><?php echo esc_html__('7+ років', 'pet'); ?></option>
-                    </select>
-                </div>
-
-                <div class="filter-group">
-                    <h4><?php echo esc_html__('Стать', 'pet'); ?></h4>
-                    <select name="animal_gender" class="form-control">
-                        <option value=""><?php echo esc_html__('Будь-яка стать', 'pet'); ?></option>
-                        <option value="male"><?php echo esc_html__('Хлопчик', 'pet'); ?></option>
-                        <option value="female"><?php echo esc_html__('Дівчинка', 'pet'); ?></option>
-                    </select>
-                </div>
-
-                <div class="filter-group">
                     <h4><?php echo esc_html__('Розмір', 'pet'); ?></h4>
                     <select name="animal_size" class="form-control">
                         <option value=""><?php echo esc_html__('Будь-який розмір', 'pet'); ?></option>
                         <option value="Маленький"><?php echo esc_html__('Маленький', 'pet'); ?></option>
                         <option value="Середній"><?php echo esc_html__('Середній', 'pet'); ?></option>
                         <option value="Великий"><?php echo esc_html__('Великий', 'pet'); ?></option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <h4><?php echo esc_html__('Стан здоров\'я', 'pet'); ?></h4>
+                    <select name="animal_health" class="form-control">
+                        <option value=""><?php echo esc_html__('Будь-який стан', 'pet'); ?></option>
+                        <option value="healthy"><?php echo esc_html__('Здоровий', 'pet'); ?></option>
+                        <option value="treatment"><?php echo esc_html__('На лікуванні', 'pet'); ?></option>
+                        <option value="special_needs"><?php echo esc_html__('Особливі потреби', 'pet'); ?></option>
+                        <option value="chronic"><?php echo esc_html__('Хронічні захворювання', 'pet'); ?></option>
                     </select>
                 </div>
             </div>
@@ -55,7 +54,7 @@
         <?php pet_display_animals(6); ?>
 
         <div class="see-more-btn">
-            <a href="<?php echo esc_url(home_url('/наші-тварини')); ?>" class="btn btn-outline">
+            <a href="<?php echo esc_url(home_url('/animals')); ?>" class="btn btn-outline">
                 <?php echo esc_html__('Переглянути всіх тварин', 'pet'); ?>
             </a>
         </div>

@@ -1,0 +1,93 @@
+{
+    "key": "group_contacts_page",
+    "title": "Сторінка контактів",
+    "fields": [
+        {
+            "key": "field_contacts_header",
+            "label": "Заголовок сторінки",
+            "name": "contacts_header",
+            "type": "group",
+            "sub_fields": [
+                {
+                    "key": "field_contacts_title",
+                    "label": "Заголовок",
+                    "name": "title",
+                    "type": "text",
+                    "default_value": "Контакти"
+                },
+                {
+                    "key": "field_contacts_description",
+                    "label": "Опис",
+                    "name": "description",
+                    "type": "textarea",
+                    "default_value": "Зв'яжіться з нами будь-яким зручним способом"
+                }
+            ]
+        },
+        {
+            "key": "field_contact_cards",
+            "label": "Контактні картки",
+            "name": "contact_cards",
+            "type": "repeater",
+            "sub_fields": [
+                {
+                    "key": "field_card_icon",
+                    "label": "Іконка",
+                    "name": "icon",
+                    "type": "text",
+                    "default_value": "fas fa-map-marker-alt"
+                },
+                {
+                    "key": "field_card_title",
+                    "label": "Заголовок",
+                    "name": "title",
+                    "type": "text"
+                },
+                {
+                    "key": "field_card_content",
+                    "label": "Контент",
+                    "name": "content",
+                    "type": "text"
+                },
+                {
+                    "key": "field_card_link",
+                    "label": "Посилання",
+                    "name": "link",
+                    "type": "url"
+                }
+            ]
+        },
+        {
+            "key": "field_map_section",
+            "label": "Карта",
+            "name": "map_section",
+            "type": "group",
+            "sub_fields": [
+                {
+                    "key": "field_map_iframe",
+                    "label": "Код карти",
+                    "name": "iframe",
+                    "type": "textarea",
+                    "instructions": "Вставте код iframe Google Maps"
+                }
+            ]
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "page_template",
+                "operator": "==",
+                "value": "page-contact.php"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "Поля для сторінки контактів"
+}

@@ -1,0 +1,164 @@
+{
+    "key": "group_about_page",
+    "title": "Сторінка про нас",
+    "fields": [
+        {
+            "key": "field_about_header",
+            "label": "Заголовок сторінки",
+            "name": "about_header",
+            "type": "group",
+            "sub_fields": [
+                {
+                    "key": "field_about_title",
+                    "label": "Заголовок",
+                    "name": "title",
+                    "type": "text",
+                    "default_value": "Про нас"
+                },
+                {
+                    "key": "field_about_description",
+                    "label": "Опис",
+                    "name": "description",
+                    "type": "textarea",
+                    "default_value": "Дізнайтеся більше про нашу місію та команду"
+                }
+            ]
+        },
+        {
+            "key": "field_mission_section",
+            "label": "Наша місія",
+            "name": "mission_section",
+            "type": "group",
+            "sub_fields": [
+                {
+                    "key": "field_mission_title",
+                    "label": "Заголовок",
+                    "name": "title",
+                    "type": "text",
+                    "default_value": "Наша місія"
+                },
+                {
+                    "key": "field_mission_content",
+                    "label": "Текст",
+                    "name": "content",
+                    "type": "wysiwyg",
+                    "default_value": "Притулок Petopia був заснований у 2015 році з метою надання допомоги безпритульним тваринам."
+                }
+            ]
+        },
+        {
+            "key": "field_what_we_do",
+            "label": "Що ми робимо",
+            "name": "what_we_do",
+            "type": "group",
+            "sub_fields": [
+                {
+                    "key": "field_what_we_do_title",
+                    "label": "Заголовок секції",
+                    "name": "section_title",
+                    "type": "text",
+                    "default_value": "Що ми робимо"
+                },
+                {
+                    "key": "field_what_we_do_items",
+                    "label": "Елементи",
+                    "name": "items",
+                    "type": "repeater",
+                    "layout": "block",
+                    "min": 3,
+                    "max": 3,
+                    "sub_fields": [
+                        {
+                            "key": "field_what_we_do_icon",
+                            "label": "Іконка",
+                            "name": "icon",
+                            "type": "image",
+                            "return_format": "url"
+                        },
+                        {
+                            "key": "field_what_we_do_title",
+                            "label": "Заголовок",
+                            "name": "title",
+                            "type": "text"
+                        },
+                        {
+                            "key": "field_what_we_do_description",
+                            "label": "Опис",
+                            "name": "description",
+                            "type": "textarea"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "key": "field_team_section",
+            "label": "Наша команда",
+            "name": "team_section",
+            "type": "group",
+            "sub_fields": [
+                {
+                    "key": "field_team_title",
+                    "label": "Заголовок",
+                    "name": "title",
+                    "type": "text",
+                    "default_value": "Наша команда"
+                },
+                {
+                    "key": "field_team_members",
+                    "label": "Члени команди",
+                    "name": "team_members",
+                    "type": "repeater",
+                    "sub_fields": [
+                        {
+                            "key": "field_member_image",
+                            "label": "Фото",
+                            "name": "image",
+                            "type": "image",
+                            "return_format": "url"
+                        },
+                        {
+                            "key": "field_member_name",
+                            "label": "Ім'я",
+                            "name": "name",
+                            "type": "text"
+                        },
+                        {
+                            "key": "field_member_position",
+                            "label": "Посада",
+                            "name": "position",
+                            "type": "text"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+    "key": "field_cta_button",
+    "label": "Кнопка CTA",
+    "name": "cta_button", 
+    "type": "link",
+    "instructions": "Виберіть сторінку та текст кнопки",
+    "required": 1,
+    "return_format": "array"
+}
+
+    ],
+    "location": [
+        [
+            {
+                "param": "page_template",
+                "operator": "==",
+                "value": "page-about.php"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "Поля для сторінки Про нас"
+}

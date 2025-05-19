@@ -30,21 +30,11 @@
     <header class="site-header">
         <div class="container">
             <div class="header-inner">
-                <div class="site-logo">
-                    <?php
-                    if (has_custom_logo()) {
-                        the_custom_logo();
-                    } else {
-                        echo '<a href="' . esc_url(home_url('/')) . '">Petopia</a>';
-                    }
-                    ?>
+                <div class="site-branding">
+                    <a href="<?php echo esc_url(home_url('/')); ?>" class="site-logo">
+                        <span class="logo-text">Petopia</span>
+                    </a>
                 </div>
-
-                <button class="mobile-menu-btn" aria-label="Меню">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </button>
 
                 <nav class="main-nav">
                     <?php
@@ -55,6 +45,23 @@
                     ));
                     ?>
                 </nav>
+
+                <div class="header-actions">
+                    <a href="<?php echo esc_url(wc_get_page_permalink('myaccount')); ?>" class="account-link">
+                        <i class="fas fa-user"></i>
+                    </a>
+
+                    <a href="<?php echo esc_url(wc_get_cart_url()); ?>" class="cart-link">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="cart-count"><?php echo WC()->cart->get_cart_contents_count(); ?></span>
+                    </a>
+                </div>
+
+                <button class="mobile-menu-btn" aria-label="Меню">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
             </div>
         </div>
     </header>
@@ -67,5 +74,14 @@
             'container' => false,
         ));
         ?>
+        <div class="mobile-actions">
+            <a href="<?php echo esc_url(wc_get_page_permalink('myaccount')); ?>" class="mobile-action-link">
+                <i class="fas fa-user"></i>
+            </a>
+            <a href="<?php echo esc_url(wc_get_cart_url()); ?>" class="mobile-action-link">
+                <i class="fas fa-shopping-cart"></i>
+                <span class="mobile-cart-count"><?php echo WC()->cart->get_cart_contents_count(); ?></span>
+            </a>
+        </div>
     </div>
     <div class="mobile-menu-overlay"></div>

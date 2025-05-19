@@ -1,0 +1,71 @@
+{
+    "key": "group_statistics",
+    "title": "Статистика притулку",
+    "fields": [
+        {
+            "key": "field_rescued_animals",
+            "label": "Врятованих тварин",
+            "name": "rescued_animals",
+            "type": "number",
+            "instructions": "Введіть кількість врятованих тварин",
+            "required": 1,
+            "default_value": 143,
+            "min": 0,
+            "max": "",
+            "step": 1
+        },
+        {
+            "key": "field_volunteers",
+            "label": "Волонтерів",
+            "name": "volunteers",
+            "type": "number",
+            "instructions": "Введіть кількість волонтерів",
+            "required": 1,
+            "default_value": 65,
+            "min": 0,
+            "max": "",
+            "step": 1
+        },
+        {
+            "key": "field_adopted_animals",
+            "label": "Прилаштованих тварин",
+            "name": "adopted_animals",
+            "type": "number",
+            "instructions": "Введіть кількість прилаштованих тварин",
+            "required": 1,
+            "default_value": 328,
+            "min": 0,
+            "max": "",
+            "step": 1
+        },
+        {
+            "key": "field_donors",
+            "label": "Донорів",
+            "name": "donors",
+            "type": "number",
+            "instructions": "Введіть кількість донорів",
+            "required": 1,
+            "default_value": 562,
+            "min": 0,
+            "max": "",
+            "step": 1
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "options_page",
+                "operator": "==",
+                "value": "theme-general-settings"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "Налаштування статистики для головної сторінки"
+}

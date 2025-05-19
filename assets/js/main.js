@@ -1,4 +1,46 @@
 document.addEventListener('DOMContentLoaded', function() {
+
+    // FAQ Functionality
+    const faqCategories = document.querySelectorAll('.faq-category');
+    const faqItems = document.querySelectorAll('.faq-item');
+
+    // Category switching
+    faqCategories.forEach(category => {
+        category.addEventListener('click', () => {
+            // Remove active class from all categories
+            faqCategories.forEach(cat => cat.classList.remove('active'));
+            // Add active class to clicked category
+            category.classList.add('active');
+
+            // Hide all category content
+            document.querySelectorAll('.faq-category-content').forEach(content => {
+                content.classList.remove('active');
+            });
+
+            // Show selected category content
+            const selectedCategory = category.dataset.category;
+            document.querySelector(`.faq-category-content[data-category="${selectedCategory}"]`).classList.add('active');
+        });
+    });
+
+    // FAQ items expand/collapse
+    faqItems.forEach(item => {
+        const question = item.querySelector('.faq-question');
+        question.addEventListener('click', () => {
+            const isActive = item.classList.contains('active');
+            
+            // Close all other items
+            faqItems.forEach(otherItem => {
+                if (otherItem !== item) {
+                    otherItem.classList.remove('active');
+                }
+            });
+
+            // Toggle current item
+            item.classList.toggle('active');
+        });
+    });
+
     // Page Loader
     const loader = document.querySelector('.page-loader');
     if (loader) {
@@ -47,7 +89,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Rest of your existing code...
     // Mobile Menu
     const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
     const mobileMenu = document.querySelector('.mobile-menu');
@@ -114,50 +155,63 @@ document.addEventListener('DOMContentLoaded', function() {
         const filterSelects = filterForm.querySelectorAll('select');
         
         function updateVisibility() {
-            const selectedFilters = Array.from(filterSelects).reduce((acc, select) => {
-                if (select.value) {
-                    acc[select.name] = select.value;
-                }
-                return acc;
-            }, {});
+    const selectedFilters = Array.from(filterSelects).reduce((acc, select) => {
+        if (select.value) {
+            acc[select.name] = select.value;
+        }
+        return acc;
+    }, {});
 
-            let hasVisibleCards = false;
+    let hasVisibleCards = false;
 
-            animalCards.forEach(card => {
-                const matches = Object.entries(selectedFilters).every(([key, value]) => {
-                    const dataKey = key.replace('animal_', '');
-                    return card.dataset[dataKey] === value;
-                });
-                
-                card.style.display = matches ? '' : 'none';
-                if (matches) {
-                    hasVisibleCards = true;
-                }
-            });
+    animalCards.forEach(card => {
+        const matches = Object.entries(selectedFilters).every(([key, value]) => {
+            if (!value) return true;
+            
+            const dataKey = key.replace('animal_', '');
+            let cardValue = card.getAttribute(`data-${dataKey.toLowerCase()}`);
+            
+            // Переконаємося, що обидва значення приведені до нижнього регістру
+            const normalizedCardValue = cardValue ? cardValue.toLowerCase() : '';
+            const normalizedFilterValue = value.toLowerCase();
+            
+            // Debug output
+            console.log(`Comparing filter "${key}": "${normalizedFilterValue}" with card value: "${normalizedCardValue}"`);
+            
+            return normalizedCardValue === normalizedFilterValue;
+        });
+        
+        if (matches) {
+            card.style.display = '';
+            hasVisibleCards = true;
+        } else {
+            card.style.display = 'none';
+        }
+    });
 
-            // Show message if no animals match filters
-            const noResultsMessage = document.querySelector('.no-results-message');
-            if (!hasVisibleCards) {
-                if (!noResultsMessage) {
-                    const message = document.createElement('p');
-                    message.className = 'no-results-message';
-                    message.textContent = 'На жаль, не знайдено тварин за вашими критеріями';
-                    message.style.textAlign = 'center';
-                    message.style.marginTop = '2rem';
-                    const animalsGrid = document.querySelector('.animals-grid');
-                    animalsGrid.parentNode.insertBefore(message, animalsGrid.nextSibling);
-                }
-            } else if (noResultsMessage) {
-                noResultsMessage.remove();
+    const noResultsMessage = document.querySelector('.no-results-message');
+    if (!hasVisibleCards) {
+        if (!noResultsMessage) {
+            const message = document.createElement('p');
+            message.className = 'no-results-message';
+            message.textContent = 'На жаль, не знайдено тварин за вашими критеріями';
+            message.style.textAlign = 'center';
+            message.style.marginTop = '2rem';
+            const animalsGrid = document.querySelector('.animals-grid');
+            if (animalsGrid) {
+                animalsGrid.parentNode.insertBefore(message, animalsGrid.nextSibling);
             }
         }
+    } else if (noResultsMessage) {
+        noResultsMessage.remove();
+    }
+}
 
-        // Add event listeners to all filter selects
+
         filterSelects.forEach(select => {
             select.addEventListener('change', updateVisibility);
         });
 
-        // Clear filters
         if (clearFiltersBtn) {
             clearFiltersBtn.addEventListener('click', (e) => {
                 e.preventDefault();
@@ -173,3 +227,5 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 });
+
+

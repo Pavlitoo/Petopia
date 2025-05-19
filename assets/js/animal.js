@@ -1,160 +1,124 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Share button functionality
-    const shareBtn = document.querySelector('.share-btn');
-    if (shareBtn) {
-        shareBtn.addEventListener('click', async () => {
-            try {
-                if (navigator.share) {
-                    await navigator.share({
-                        title: petAnimalData.shareTitle,
-                        url: petAnimalData.shareUrl
-                    });
-                } else {
-                    // Fallback для браузерів без Web Share API
-                    const tempInput = document.createElement('input');
-                    tempInput.value = petAnimalData.shareUrl;
-                    document.body.appendChild(tempInput);
-                    tempInput.select();
-                    document.execCommand('copy');
-                    document.body.removeChild(tempInput);
+    // Modal functionality
+    const modal = document.getElementById('adoption-modal');
+    const openModalBtn = document.querySelector('[data-open-adoption-form]');
+    const closeModalBtn = document.querySelector('.close-modal');
+    const adoptionForm = document.getElementById('adoption-form');
 
-                    // Показуємо повідомлення про копіювання
-                    const notification = document.createElement('div');
-                    notification.className = 'copy-notification';
-                    notification.textContent = 'Посилання скопійовано!';
-                    notification.style.position = 'fixed';
-                    notification.style.bottom = '20px';
-                    notification.style.left = '50%';
-                    notification.style.transform = 'translateX(-50%)';
-                    notification.style.backgroundColor = '#FF751F';
-                    notification.style.color = 'white';
-                    notification.style.padding = '10px 20px';
-                    notification.style.borderRadius = '8px';
-                    notification.style.zIndex = '1000';
-                    document.body.appendChild(notification);
+    if (modal && openModalBtn && closeModalBtn) {
+        openModalBtn.addEventListener('click', () => {
+            modal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        });
 
-                    setTimeout(() => {
-                        notification.remove();
-                    }, 2000);
-                }
-            } catch (err) {
-                console.error('Error sharing:', err);
+        closeModalBtn.addEventListener('click', () => {
+            modal.style.display = 'none';
+            document.body.style.overflow = '';
+        });
+
+        window.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.style.display = 'none';
+                document.body.style.overflow = '';
             }
         });
-    }
 
-    // Adopt button functionality
-    const adoptBtn = document.querySelector('.btn-adopt');
-    if (adoptBtn) {
-        adoptBtn.addEventListener('click', (e) => {
-            e.preventDefault();
+        // Form validation function
+        function validateAdoptionForm(formData) {
+            const errors = [];
+            const nameRegex = /^[a-zA-Zа-яА-ЯіІїЇєЄґҐ\s'-]{2,50}$/;
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            const phoneRegex = /^\+?3?8?(0\d{9})$/;
+
+            // Validate name
+            const name = formData.get('name');
+            if (!name || !nameRegex.test(name)) {
+                errors.push("Будь ласка, введіть коректне ім'я (2-50 символів)");
+            }
+
+            // Validate email
+            const email = formData.get('email');
+            if (!email || !emailRegex.test(email)) {
+                errors.push('Будь ласка, введіть коректний email');
+            }
+
+            // Validate phone
+            const phone = formData.get('phone');
+            if (!phone || !phoneRegex.test(phone)) {
+                errors.push('Будь ласка, введіть коректний номер телефону (+380XXXXXXXXX)');
+            }
+
+            return errors;
+        }
+
+        // Show error messages
+        function showErrors(errors, form) {
+            const errorContainer = document.createElement('div');
+            errorContainer.className = 'form-errors';
+            errorContainer.innerHTML = errors.map(error => `<p class="error-message">${error}</p>`).join('');
             
-            // Get animal details
-            const animalId = adoptBtn.dataset.animalId;
+            const existingErrors = form.querySelector('.form-errors');
+            if (existingErrors) {
+                existingErrors.remove();
+            }
+            
+            form.insertBefore(errorContainer, form.firstChild);
+        }
 
-            // Show adoption form modal
-            const modal = document.createElement('div');
-            modal.className = 'adoption-modal';
-            modal.innerHTML = `
-                <div class="adoption-modal-content">
-                    <button class="modal-close">&times;</button>
-                    <div class="adoption-form-header">
-                        <h2>Заявка на прихисток</h2>
-                        <p>Ви хочете прихистити ${petAnimalData.shareTitle}</p>
-                    </div>
-                    <form id="adoption-form">
-                        <input type="hidden" name="animal_id" value="${animalId}">
-                        <div class="form-group">
-                            <label for="name">Ваше ім'я</label>
-                            <input type="text" id="name" name="name" required class="form-control">
-                        </div>
-                        <div class="form-group">
-                            <label for="phone">Телефон</label>
-                            <input type="tel" id="phone" name="phone" required class="form-control">
-                        </div>
-                        <div class="form-group">
-                            <label for="email">Email</label>
-                            <input type="email" id="email" name="email" required class="form-control">
-                        </div>
-                        <div class="form-group">
-                            <label for="message">Повідомлення</label>
-                            <textarea id="message" name="message" rows="4" class="form-control"></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Відправити заявку</button>
-                    </form>
-                </div>
-            `;
-
-            document.body.appendChild(modal);
-            document.body.style.overflow = 'hidden';
-
-            // Show modal with animation
-            requestAnimationFrame(() => {
-                modal.classList.add('active');
-            });
-
-            // Handle modal close
-            const closeModal = () => {
-                modal.classList.remove('active');
-                document.body.style.overflow = '';
-                setTimeout(() => modal.remove(), 300);
-            };
-
-            modal.querySelector('.modal-close').addEventListener('click', closeModal);
-            modal.addEventListener('click', (e) => {
-                if (e.target === modal) {
-                    closeModal();
-                }
-            });
-
-            // Handle form submission
-            const form = modal.querySelector('#adoption-form');
-            form.addEventListener('submit', async (e) => {
+        // Handle form submission
+        if (adoptionForm) {
+            adoptionForm.addEventListener('submit', async function(e) {
                 e.preventDefault();
+                
+                const formData = new FormData(this);
+                const errors = validateAdoptionForm(formData);
 
-                const submitBtn = form.querySelector('button[type="submit"]');
-                const originalText = submitBtn.textContent;
-                submitBtn.disabled = true;
-                submitBtn.innerHTML = '<span class="loading-spinner"></span> Відправляємо...';
+                if (errors.length > 0) {
+                    showErrors(errors, this);
+                    return;
+                }
 
-                const formData = new FormData(form);
-                formData.append('action', 'pet_adoption_form');
-                formData.append('nonce', petAnimalData.nonce);
+                const submitButton = this.querySelector('button[type="submit"]');
+                const originalText = submitButton.textContent;
+                submitButton.disabled = true;
+                submitButton.innerHTML = '<span class="loading-spinner"></span> Відправляємо...';
 
                 try {
-                    const response = await fetch(petAnimalData.ajaxUrl, {
+                    const response = await fetch(petAdoptionData.ajaxurl, {
                         method: 'POST',
                         body: formData,
-                        credentials: 'same-origin' // Add this line
+                        credentials: 'same-origin'
                     });
-
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! status: ${response.status}`);
-                    }
 
                     const data = await response.json();
 
                     if (data.success) {
-                        modal.querySelector('.adoption-modal-content').innerHTML = `
+                        const modalContent = modal.querySelector('.modal-content');
+                        modalContent.innerHTML = `
                             <div class="success-message">
                                 <div class="success-icon">✓</div>
-                                <h2>Дякуємо за вашу заявку!</h2>
-                                <p>Ми зв'яжемося з вами найближчим часом для обговорення деталей.</p>
-                                <button class="btn btn-primary modal-close">Закрити</button>
+                                <h3>Дякуємо за вашу заявку!</h3>
+                                <p>Ми зв'яжемося з вами найближчим часом.</p>
+                                <button class="btn btn-primary close-modal-success">Закрити</button>
                             </div>
                         `;
 
-                        modal.querySelector('.modal-close').addEventListener('click', closeModal);
+                        const closeSuccessBtn = modalContent.querySelector('.close-modal-success');
+                        closeSuccessBtn.addEventListener('click', () => {
+                            modal.style.display = 'none';
+                            document.body.style.overflow = '';
+                        });
                     } else {
-                        throw new Error(data.data?.message || 'Failed to submit form');
+                        throw new Error(data.data.message || 'Помилка відправки форми');
                     }
                 } catch (error) {
-                    console.error('Error submitting form:', error);
-                    submitBtn.disabled = false;
-                    submitBtn.textContent = originalText;
-                    alert('Виникла помилка при відправці форми. Будь ласка, спробуйте пізніше.');
+                    console.error('Error:', error);
+                    showErrors(['Виникла помилка. Спробуйте ще раз пізніше.'], this);
+                    
+                    submitButton.disabled = false;
+                    submitButton.textContent = originalText;
                 }
             });
-        });
+        }
     }
 });

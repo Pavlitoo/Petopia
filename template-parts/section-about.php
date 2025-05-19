@@ -5,22 +5,35 @@
  *
  * @package Pet
  */
+
+$about = get_field('about_section', 'option');
 ?>
 
 <section class="about-section">
     <div class="container">
         <div class="about-inner">
             <div class="about-content">
-                <h2><?php echo esc_html__('Про притулок Petopia', 'pet'); ?></h2>
-                <p><?php echo esc_html__('Притулок Petopia був заснований у 2015 році групою волонтерів, які прагнули дати безпритульним тваринам другий шанс на щасливе життя. З часом наш притулок виріс у велике співтовариство людей, яких об\'єднує любов до тварин.', 'pet'); ?></p>
-                <p><?php echo esc_html__('Ми забезпечуємо не тільки притулок для тварин, які опинилися на вулиці, але й надаємо їм медичний догляд, харчування і, найголовніше, ласку та турботу. Ми віримо, що кожна тварина заслуговує на люблячий дім.', 'pet'); ?></p>
+                <h2><?php echo esc_html($about['about_title']); ?></h2>
+                <div class="about-text">
+                    <?php echo wp_kses_post($about['about_content']); ?>
+                </div>
                 <div class="about-actions">
-                    <a href="<?php echo esc_url(get_template_directory_uri() . '/page-templates/page-volunteer-guide.php'); ?>" class="btn btn-primary"><?php echo esc_html__('Стати волонтером', 'pet'); ?></a>
+                    <?php
+                    $button = $about['about_button'];
+                    if ($button && $button['url']) : ?>
+                        <a href="<?php echo esc_url($button['url']); ?>"
+                            class="btn btn-primary"
+                            <?php echo $button['target'] ? 'target="' . esc_attr($button['target']) . '"' : ''; ?>>
+                            <?php echo esc_html($button['title']); ?>
+                        </a>
+                    <?php endif; ?>
                 </div>
             </div>
-            <div class="about-image">
-                <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/about.jpg'); ?>" alt="<?php echo esc_attr__('Про притулок', 'pet'); ?>">
-            </div>
+            <?php if ($about['about_image']) : ?>
+                <div class="about-image">
+                    <img src="<?php echo esc_url($about['about_image']); ?>" alt="<?php echo esc_attr($about['about_title']); ?>">
+                </div>
+            <?php endif; ?>
         </div>
     </div>
 </section>

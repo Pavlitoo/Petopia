@@ -7,13 +7,18 @@
  */
 
 get_header();
+
+// Get ACF fields
+$header = get_field('contacts_header');
+$contact_cards = get_field('contact_cards');
+$map = get_field('map_section');
 ?>
 
 <main id="primary" class="site-main">
     <section class="page-header">
         <div class="container">
-            <h1 class="page-title"><?php echo esc_html__('Контакти', 'pet'); ?></h1>
-            <p class="page-description"><?php echo esc_html__('Зв\'яжіться з нами будь-яким зручним способом', 'pet'); ?></p>
+            <h1 class="page-title"><?php echo esc_html($header['title']); ?></h1>
+            <p class="page-description"><?php echo esc_html($header['description']); ?></p>
         </div>
     </section>
 
@@ -24,48 +29,36 @@ get_header();
                     <h2 class="contact-title"><?php echo esc_html__('Як зв\'язатися з нами', 'pet'); ?></h2>
                     <p class="contact-description"><?php echo esc_html__('Маєте питання або хочете детальніше дізнатися про наших підопічних? Зв\'яжіться з нами будь-яким зручним способом.', 'pet'); ?></p>
 
-                    <div class="contact-cards">
-                        <div class="contact-card">
-                            <div class="card-icon">
-                                <i class="fas fa-map-marker-alt"></i>
-                            </div>
-                            <div class="card-content">
-                                <h4>Адреса</h4>
-                                <p>вул. Юліана Матвійчука, 83а<br>Полтава, 36000</p>
-                            </div>
+                    <?php if ($contact_cards): ?>
+                        <div class="contact-cards">
+                            <?php foreach ($contact_cards as $card): ?>
+                                <div class="contact-card">
+                                    <div class="card-icon">
+                                        <i class="<?php echo esc_attr($card['icon']); ?>"></i>
+                                    </div>
+                                    <div class="card-content">
+                                        <h4><?php echo esc_html($card['title']); ?></h4>
+                                        <?php if ($card['link']): ?>
+                                            <p><a href="<?php echo esc_url($card['link']); ?>"><?php echo esc_html($card['content']); ?></a></p>
+                                        <?php else: ?>
+                                            <p><?php echo esc_html($card['content']); ?></p>
+                                        <?php endif; ?>
+                                    </div>
+                                </div>
+                            <?php endforeach; ?>
                         </div>
-
-                        <div class="contact-card">
-                            <div class="card-icon">
-                                <i class="fas fa-phone"></i>
-                            </div>
-                            <div class="card-content">
-                                <h4>Телефон</h4>
-                                <p><a href="tel:+380997071385">+380 99 707 1385</a></p>
-                            </div>
-                        </div>
-
-                        <div class="contact-card">
-                            <div class="card-icon">
-                                <i class="fas fa-envelope"></i>
-                            </div>
-                            <div class="card-content">
-                                <h4>Email</h4>
-                                <p><a href="mailto:pasalugovij@gmail.com">pasalugovij@gmail.com</a></p>
-                            </div>
-                        </div>
-                    </div>
+                    <?php endif; ?>
 
                     <div class="social-links">
-                        <a href="#" class="social-link" aria-label="Facebook">
-                            <i class="fab fa-facebook-f"></i>
-                        </a>
-                        <a href="https://www.instagram.com/petopia.ua/?utm_source=ig_web_button_share_sheet" class="social-link" aria-label="Instagram">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                        <a href="#" class="social-link" aria-label="Twitter">
-                            <i class="fab fa-twitter"></i>
-                        </a>
+                        <?php
+                        $social_links = get_field('social_links', 'option');
+                        if ($social_links):
+                            foreach ($social_links as $social): ?>
+                                <a href="<?php echo esc_url($social['url']); ?>" class="social-link" aria-label="<?php echo esc_attr($social['name']); ?>">
+                                    <i class="<?php echo esc_attr($social['icon']); ?>"></i>
+                                </a>
+                        <?php endforeach;
+                        endif; ?>
                     </div>
                 </div>
 
@@ -106,21 +99,15 @@ get_header();
         </div>
     </section>
 
-    <section class="map-section">
-        <div class="container">
-            <div class="map-wrapper">
-                <iframe
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2585.873711410291!2d34.52553807692385!3d49.59066667147435!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40d82f9d8f0a3aa7%3A0x5f5fc606b370c5b8!2z0LLRg9C70LjRhtGPINCu0LvRltCw0L3QsCDQnNCw0YLQstGW0LnRh9GD0LrQsCwgODPQsCwg0J_QvtC70YLQsNCy0LAsINCf0L7Qu9GC0LDQstGB0YzQutCwINC-0LHQu9Cw0YHRgtGMLCAzNjAwMA!5e0!3m2!1suk!2sua!4v1701799552815!5m2!1suk!2sua"
-                    width="100%"
-                    height="450"
-                    style="border:0;"
-                    allowfullscreen=""
-                    loading="lazy"
-                    referrerpolicy="no-referrer-when-downgrade">
-                </iframe>
+    <?php if ($map && $map['iframe']): ?>
+        <section class="map-section">
+            <div class="container">
+                <div class="map-wrapper">
+                    <?php echo $map['iframe']; ?>
+                </div>
             </div>
-        </div>
-    </section>
+        </section>
+    <?php endif; ?>
 </main>
 
 <?php

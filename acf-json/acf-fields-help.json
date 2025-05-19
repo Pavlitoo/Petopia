@@ -1,0 +1,112 @@
+{
+    "key": "group_help_page",
+    "title": "Сторінка допомоги",
+    "fields": [
+        {
+            "key": "field_help_header",
+            "label": "Заголовок сторінки",
+            "name": "help_header",
+            "type": "group",
+            "sub_fields": [
+                {
+                    "key": "field_help_title",
+                    "label": "Заголовок",
+                    "name": "title",
+                    "type": "text",
+                    "default_value": "Допомогти притулку"
+                },
+                {
+                    "key": "field_help_description",
+                    "label": "Опис",
+                    "name": "description",
+                    "type": "textarea",
+                    "default_value": "Ваша підтримка допомагає нам рятувати більше тварин"
+                }
+            ]
+        },
+        {
+            "key": "field_donation_form",
+            "label": "Форма пожертви",
+            "name": "donation_form",
+            "type": "group",
+            "sub_fields": [
+                {
+                    "key": "field_donation_title",
+                    "label": "Заголовок форми",
+                    "name": "title",
+                    "type": "text",
+                    "default_value": "Підтримайте нас"
+                },
+                {
+                    "key": "field_donation_description",
+                    "label": "Опис форми",
+                    "name": "description",
+                    "type": "textarea"
+                },
+                {
+                    "key": "field_donation_amounts",
+                    "label": "Суми пожертв",
+                    "name": "amounts",
+                    "type": "repeater",
+                    "sub_fields": [
+                        {
+                            "key": "field_amount",
+                            "label": "Сума",
+                            "name": "amount",
+                            "type": "number"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "key": "field_help_options",
+            "label": "Інші способи допомоги",
+            "name": "help_options",
+            "type": "repeater",
+            "sub_fields": [
+                {
+                    "key": "field_option_icon",
+                    "label": "Іконка",
+                    "name": "icon",
+                    "type": "text"
+                },
+                {
+                    "key": "field_option_title",
+                    "label": "Заголовок",
+                    "name": "title",
+                    "type": "text"
+                },
+                {
+                    "key": "field_option_description",
+                    "label": "Опис",
+                    "name": "description",
+                    "type": "textarea"
+                },
+                {
+                    "key": "field_option_link",
+                    "label": "Посилання",
+                    "name": "link",
+                    "type": "link"
+                }
+            ]
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "page_template",
+                "operator": "==",
+                "value": "page-help.php"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "Поля для сторінки допомоги"
+}

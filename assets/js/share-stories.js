@@ -1,62 +1,116 @@
 document.addEventListener('DOMContentLoaded', function() {
-    const shareButtons = document.querySelectorAll('.share-story');
+    // Share story buttons handler
+    const shareStoryButtons = document.querySelectorAll('.share-story');
     
-    shareButtons.forEach(button => {
-        button.addEventListener('click', async function() {
-            const storyData = JSON.parse(this.dataset.story);
-            const shareUrl = window.location.origin + '/success-stories/';
-            const shareData = {
-                title: `Історія ${storyData.name} з притулку Petopia`,
-                text: storyData.description,
-                url: shareUrl
-            };
-
-            try {
-                if (navigator.share) {
-                    await navigator.share(shareData);
-                } else {
-                    // Fallback for browsers that don't support Web Share API
-                    const modalHtml = `
-                        <div class="share-modal">
-                            <div class="share-modal-content">
-                                <h3>Поділитися історією ${storyData.name}</h3>
-                                <div class="share-buttons">
-                                    <a href="https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}" 
-                                       target="_blank" class="share-button facebook">
-                                        <i class="fab fa-facebook"></i> Facebook
-                                    </a>
-                                    <a href="https://twitter.com/intent/tweet?text=${encodeURIComponent(storyData.description)}&url=${encodeURIComponent(shareUrl)}" 
-                                       target="_blank" class="share-button twitter">
-                                        <i class="fab fa-twitter"></i> Twitter
-                                    </a>
-                                    <a href="https://t.me/share/url?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(storyData.description)}" 
-                                       target="_blank" class="share-button telegram">
-                                        <i class="fab fa-telegram"></i> Telegram
-                                    </a>
-                                </div>
-                                <button class="close-modal">✕</button>
-                            </div>
-                        </div>
-                    `;
-
-                    document.body.insertAdjacentHTML('beforeend', modalHtml);
-
-                    const modal = document.querySelector('.share-modal');
-                    const closeBtn = modal.querySelector('.close-modal');
-
-                    modal.addEventListener('click', (e) => {
-                        if (e.target === modal) {
-                            modal.remove();
-                        }
-                    });
-
-                    closeBtn.addEventListener('click', () => {
-                        modal.remove();
-                    });
+    if (shareStoryButtons) {
+        shareStoryButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                try {
+                    // Parse the story data from the data-story attribute
+                    const storyData = JSON.parse(this.dataset.story);
+                    const title = storyData.name;
+                    const description = storyData.description;
+                    const image = storyData.image;
+                    const successStoriesUrl = storyData.successStoriesUrl || '';
+                    
+                    // Try to use Web Share API if available
+                    if (navigator.share) {
+                        navigator.share({
+                            title: title,
+                            text: description,
+                            url: successStoriesUrl
+                        }).catch(err => {
+                            console.log('Error sharing:', err);
+                            createShareModal(title, description, successStoriesUrl, image);
+                        });
+                    } else {
+                        createShareModal(title, description, successStoriesUrl, image);
+                    }
+                } catch (error) {
+                    console.error('Error parsing story data:', error);
                 }
-            } catch (err) {
-                console.error('Error sharing:', err);
+            });
+        });
+    }
+
+    function createShareModal(title, description, url, image) {
+        // Remove existing modal if any
+        const existingModal = document.querySelector('.share-modal');
+        if (existingModal) {
+            existingModal.remove();
+        }
+
+        const encodedUrl = encodeURIComponent(url);
+        const encodedTitle = encodeURIComponent(title);
+        const encodedDescription = encodeURIComponent(description);
+        const shareText = `${encodedTitle}: ${encodedDescription}`;
+
+        const modalHTML = `
+            <div class="share-modal">
+                <div class="share-modal-content">
+                    <button class="close-modal">&times;</button>
+                    <h3>Поділитися історією</h3>
+                    <div class="story-preview">
+                        <img src="${image}" alt="${title}" class="story-preview-image">
+                        <div class="story-preview-content">
+                            <h4>${title}</h4>
+                            <p>${description}</p>
+                        </div>
+                    </div>
+                    <div class="share-buttons">
+                        <a href="https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}" 
+                           target="_blank" 
+                           rel="noopener noreferrer"
+                           class="share-button facebook">
+                            <i class="fab fa-facebook-f"></i>
+                            Facebook
+                        </a>
+                        <a href="https://twitter.com/intent/tweet?text=${shareText}&url=${encodedUrl}" 
+                           target="_blank"
+                           rel="noopener noreferrer" 
+                           class="share-button twitter">
+                            <i class="fab fa-twitter"></i>
+                            Twitter
+                        </a>
+                        <a href="https://t.me/share/url?url=${encodedUrl}&text=${shareText}" 
+                           target="_blank"
+                           rel="noopener noreferrer" 
+                           class="share-button telegram">
+                            <i class="fab fa-telegram"></i>
+                            Telegram
+                        </a>
+                        <a href="viber://forward?text=${shareText} ${encodedUrl}" 
+                           class="share-button viber">
+                            <i class="fab fa-viber"></i>
+                            Viber
+                        </a>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        document.body.insertAdjacentHTML('beforeend', modalHTML);
+
+        const modal = document.querySelector('.share-modal');
+        const closeBtn = modal.querySelector('.close-modal');
+
+        // Close modal on button click
+        closeBtn.addEventListener('click', () => {
+            modal.remove();
+        });
+
+        // Close modal on overlay click
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.remove();
             }
         });
-    });
+
+        // Close modal on Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && document.querySelector('.share-modal')) {
+                modal.remove();
+            }
+        }, { once: true });
+    }
 });

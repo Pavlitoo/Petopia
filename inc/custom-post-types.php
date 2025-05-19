@@ -108,10 +108,21 @@ function pet_register_post_types()
         'hierarchical'       => false,
         'menu_position'      => 30,
         'menu_icon'          => 'dashicons-email-alt',
-        'supports'           => array('title'),
+        'supports'           => array('title', 'editor'),
     );
 
     register_post_type('contact_submission', $contact_args);
+
+    add_action('add_meta_boxes', function () {
+        add_meta_box(
+            'contact_details',
+            __('Деталі повідомлення', 'pet'),
+            'pet_contact_details_meta_box',
+            'contact_submission',
+            'normal',
+            'high'
+        );
+    });
 
     $args = array(
         'labels'             => $labels,
@@ -195,6 +206,7 @@ function pet_register_post_types()
     register_taxonomy('animal_category', array('animal'), $tax_args);
 }
 add_action('init', 'pet_register_post_types');
+
 
 // Add custom columns to volunteer applications list
 function pet_add_volunteer_columns($columns)

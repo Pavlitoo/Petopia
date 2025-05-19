@@ -7,13 +7,18 @@
  */
 
 get_header();
+
+// Get ACF fields
+$header = get_field('help_header');
+$donation_form = get_field('donation_form');
+$help_options = get_field('help_options');
 ?>
 
 <main id="primary" class="site-main">
     <section class="page-header">
         <div class="container">
-            <h1 class="page-title"><?php echo esc_html__('Допомогти притулку', 'pet'); ?></h1>
-            <p class="page-description"><?php echo esc_html__('Ваша підтримка допомагає нам рятувати більше тварин та створювати комфортні умови для наших підопічних', 'pet'); ?></p>
+            <h1 class="page-title"><?php echo esc_html($header['title']); ?></h1>
+            <p class="page-description"><?php echo esc_html($header['description']); ?></p>
         </div>
     </section>
 
@@ -22,17 +27,20 @@ get_header();
             <div class="support-inner">
                 <!-- Donation Form -->
                 <div class="support-form">
-                    <h2><?php echo esc_html__('Підтримайте нас', 'pet'); ?></h2>
-                    <p class="support-description"><?php echo esc_html__('Ваша підтримка допоможе нам рятувати більше тварин та створювати комфортні умови для наших підопічних.', 'pet'); ?></p>
+                    <h2><?php echo esc_html($donation_form['title']); ?></h2>
+                    <p class="support-description"><?php echo esc_html($donation_form['description']); ?></p>
 
                     <form id="donation-form" action="#" method="post">
                         <div class="form-group">
                             <label class="form-label"><?php echo esc_html__('Сума пожертви', 'pet'); ?></label>
                             <div class="amount-buttons">
-                                <button type="button" class="amount-btn" data-amount="100">100₴</button>
-                                <button type="button" class="amount-btn" data-amount="200">200₴</button>
-                                <button type="button" class="amount-btn active" data-amount="500">500₴</button>
-                                <button type="button" class="amount-btn" data-amount="1000">1000₴</button>
+                                <?php if ($donation_form['amounts']):
+                                    foreach ($donation_form['amounts'] as $amount): ?>
+                                        <button type="button" class="amount-btn" data-amount="<?php echo esc_attr($amount['amount']); ?>">
+                                            <?php echo esc_html($amount['amount']); ?>₴
+                                        </button>
+                                <?php endforeach;
+                                endif; ?>
                             </div>
                             <input type="number" class="form-control" name="custom_amount" value="500">
                         </div>
@@ -61,34 +69,24 @@ get_header();
                 <div class="other-help">
                     <h3><?php echo esc_html__('Інші способи допомогти', 'pet'); ?></h3>
 
-                    <div class="help-options">
-                        <div class="help-option">
-                            <h4>
-                                <span class="help-icon">🐕</span>
-                                <?php echo esc_html__('Волонтерство', 'pet'); ?>
-                            </h4>
-                            <p><?php echo esc_html__('Станьте волонтером та допомагайте доглядати за тваринами', 'pet'); ?></p>
-                            <a href="#" class="help-link"><?php echo esc_html__('Дізнатись більше →', 'pet'); ?></a>
+                    <?php if ($help_options): ?>
+                        <div class="help-options">
+                            <?php foreach ($help_options as $option): ?>
+                                <div class="help-option">
+                                    <h4>
+                                        <span class="help-icon"><i class="<?php echo esc_attr($option['icon']); ?>"></i></span>
+                                        <?php echo esc_html($option['title']); ?>
+                                    </h4>
+                                    <p><?php echo esc_html($option['description']); ?></p>
+                                    <?php if ($option['link']): ?>
+                                        <a href="<?php echo esc_url($option['link']['url']); ?>" class="help-link">
+                                            <?php echo esc_html($option['link']['title']); ?> →
+                                        </a>
+                                    <?php endif; ?>
+                                </div>
+                            <?php endforeach; ?>
                         </div>
-
-                        <div class="help-option">
-                            <h4>
-                                <span class="help-icon">🚗</span>
-                                <?php echo esc_html__('Транспортування', 'pet'); ?>
-                            </h4>
-                            <p><?php echo esc_html__('Допомога у перевезенні тварин до ветеринара чи нового дому', 'pet'); ?></p>
-                            <a href="#" class="help-link"><?php echo esc_html__('Переглянути потреби →', 'pet'); ?></a>
-                        </div>
-
-                        <div class="help-option">
-                            <h4>
-                                <span class="help-icon">📸</span>
-                                <?php echo esc_html__('Фото та відео', 'pet'); ?>
-                            </h4>
-                            <p><?php echo esc_html__('Створення якісних фото та відео наших підопічних', 'pet'); ?></p>
-                            <a href="#" class="help-link"><?php echo esc_html__('Поділитися →', 'pet'); ?></a>
-                        </div>
-                    </div>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>
