@@ -8,6 +8,10 @@
 
 if (!defined('ABSPATH')) {
     exit; // Exit if accessed directly.
+
+
+
+
 }
 
 
@@ -17,11 +21,16 @@ define('PET_THEME_VERSION', '1.0.0');
 define('PET_THEME_URI', get_template_directory_uri());
 define('PET_THEME_DIR', get_template_directory());
 
+
+
+
 /**
  * Sets up theme defaults and registers support for various WordPress features.
  */
 function pet_setup()
 {
+
+
     // Add WooCommerce support
     add_theme_support('woocommerce');
     add_theme_support('wc-product-gallery-zoom');
@@ -261,22 +270,38 @@ if (!function_exists('pet_woocommerce_wrapper_before')) {
         wp_enqueue_style('font-awesome', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css', array(), '6.0.0');
 
         // Enqueue main stylesheet
-        wp_enqueue_style('pet-style', PET_THEME_URI . '/assets/css/style.css', array(), PET_THEME_VERSION);
+        wp_enqueue_style('pet-style', get_template_directory_uri() . '/assets/css/style.css', array(), '1.0.0');
+
+        // Enqueue donation styles
+        wp_enqueue_style('donation-styles', get_template_directory_uri() . '/assets/css/donation.css', array(), '1.0.0');
 
         // Enqueue responsive stylesheet
-        wp_enqueue_style('pet-responsive', PET_THEME_URI . '/assets/css/responsive.css', array(), PET_THEME_VERSION);
+        wp_enqueue_style('pet-responsive', get_template_directory_uri() . '/assets/css/responsive.css', array(), '1.0.0');
+
+        // Deregister the built-in jQuery and jQuery Migrate
+        wp_deregister_script('jquery');
+        wp_deregister_script('jquery-migrate');
+
+        // Register and enqueue jQuery (latest version)
+        wp_register_script('jquery', 'https://code.jquery.com/jquery-3.6.0.min.js', array(), '3.6.0', true);
+        wp_enqueue_script('jquery');
+
+        // Enqueue html2canvas for certificate generation
+        if (is_page_template('page-templates/page-certificate.php')) {
+            wp_enqueue_script('html2canvas', 'https://html2canvas.hertzen.com/dist/html2canvas.min.js', array(), '1.0.0', true);
+        }
 
         // Enqueue main JavaScript file
-        wp_enqueue_script('pet-main', PET_THEME_URI . '/assets/js/main.js', array('jquery'), PET_THEME_VERSION, true);
+        wp_enqueue_script('pet-main', get_template_directory_uri() . '/assets/js/main.js', array('jquery'), '1.0.0', true);
+
+        // Enqueue certificate script only on certificate page
+        if (is_page_template('page-templates/page-certificate.php')) {
+            wp_enqueue_script('pet-sertifikat', get_template_directory_uri() . '/assets/js/sertifikat.js', array('jquery', 'html2canvas'), '1.0.0', true);
+        }
 
         // Enqueue Counter Up library
         wp_enqueue_script('waypoints', 'https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/jquery.waypoints.min.js', array('jquery'), '4.0.1', true);
         wp_enqueue_script('counterup', 'https://cdnjs.cloudflare.com/ajax/libs/Counter-Up/1.0.0/jquery.counterup.min.js', array('jquery', 'waypoints'), '1.0.0', true);
-
-        // If donation form is present on the page
-        if (is_front_page()) {
-            wp_enqueue_script('pet-donations', PET_THEME_URI . '/assets/js/donations.js', array('jquery'), PET_THEME_VERSION, true);
-        }
 
         // Add contact form script
         if (is_page_template('page-contact.php')) {
@@ -293,14 +318,10 @@ if (!function_exists('pet_woocommerce_wrapper_before')) {
 
         // Enqueue animal.js for single animal pages
         if (is_singular('animal')) {
-            wp_enqueue_script('pet-animal', get_template_directory_uri() . '/assets/js/animal.js', array('jquery'), PET_THEME_VERSION, true);
-
-            // Localize the script with necessary data
+            wp_enqueue_script('pet-animal', get_template_directory_uri() . '/assets/js/animal.js', array('jquery'), '1.0.0', true);
             wp_localize_script('pet-animal', 'petAnimalData', array(
                 'ajaxUrl' => admin_url('admin-ajax.php'),
-                'nonce' => wp_create_nonce('pet-animal-nonce'),
-                'shareTitle' => get_the_title(),
-                'shareUrl' => get_permalink()
+                'nonce' => wp_create_nonce('pet-animal-nonce')
             ));
         }
 
@@ -310,6 +331,7 @@ if (!function_exists('pet_woocommerce_wrapper_before')) {
         }
     }
     add_action('wp_enqueue_scripts', 'pet_scripts');
+
 
     /**
      * Include required files.
@@ -910,3 +932,152 @@ if (!function_exists('pet_woocommerce_wrapper_before')) {
         // Повертаємо URL сторінки або домашньої сторінки, якщо не знайдено
         return $success_stories_page ? get_permalink($success_stories_page) : home_url();
     }
+
+
+
+
+
+
+
+
+
+    // Додайте цей код у ваш functions.php файл
+
+    /**
+     * Custom Donation System Hooks
+     */
+
+    // Intercept add to cart for donation product and set custom price
+    add_filter('woocommerce_add_cart_item_data', 'pet_add_donation_cart_item_data', 10, 3);
+    function pet_add_donation_cart_item_data($cart_item_data, $product_id, $variation_id)
+    {
+        $donation_product_id = get_option('pet_donation_product_id');
+
+        if ($product_id == $donation_product_id && isset($_POST['custom_donation_amount'])) {
+            $donation_amount = floatval($_POST['custom_donation_amount']);
+
+            if ($donation_amount >= 1) {
+                $cart_item_data['custom_donation_amount'] = $donation_amount;
+                $cart_item_data['is_donation'] = true;
+                // Make each donation unique in cart
+                $cart_item_data['unique_key'] = md5(microtime() . rand());
+            }
+        }
+
+        return $cart_item_data;
+    }
+
+    // Hook to modify product price in cart
+    add_action('woocommerce_before_calculate_totals', 'pet_set_donation_price_in_cart');
+    function pet_set_donation_price_in_cart($cart)
+    {
+        if (is_admin() && !defined('DOING_AJAX')) return;
+
+        foreach ($cart->get_cart() as $cart_item) {
+            if (isset($cart_item['custom_donation_amount']) && $cart_item['custom_donation_amount'] > 0) {
+                $cart_item['data']->set_price($cart_item['custom_donation_amount']);
+            }
+        }
+    }
+
+    // Display donation amount in cart
+    add_filter('woocommerce_get_item_data', 'pet_display_donation_amount_in_cart', 10, 2);
+    function pet_display_donation_amount_in_cart($item_data, $cart_item)
+    {
+        if (isset($cart_item['custom_donation_amount'])) {
+            $item_data[] = array(
+                'key'     => __('Сума донату', 'pet'),
+                'value'   => wc_price($cart_item['custom_donation_amount']),
+                'display' => wc_price($cart_item['custom_donation_amount']),
+            );
+        }
+        return $item_data;
+    }
+
+    // Save donation amount to order meta
+    add_action('woocommerce_checkout_create_order_line_item', 'pet_save_donation_amount_to_order', 10, 4);
+    function pet_save_donation_amount_to_order($item, $cart_item_key, $values, $order)
+    {
+        if (isset($values['custom_donation_amount'])) {
+            $item->add_meta_data(__('Сума донату', 'pet'), wc_price($values['custom_donation_amount']), true);
+        }
+    }
+
+    // Modify product title in cart for donations
+    add_filter('woocommerce_cart_item_name', 'pet_modify_donation_cart_item_name', 10, 3);
+    function pet_modify_donation_cart_item_name($product_name, $cart_item, $cart_item_key)
+    {
+        if (isset($cart_item['is_donation']) && $cart_item['is_donation']) {
+            $donation_amount = isset($cart_item['custom_donation_amount']) ? $cart_item['custom_donation_amount'] : 0;
+            return $product_name . ' (' . wc_price($donation_amount) . ')';
+        }
+        return $product_name;
+    }
+
+
+    // Optional: Add admin settings for donation product
+    add_action('admin_init', 'pet_donation_settings_init');
+    function pet_donation_settings_init()
+    {
+        register_setting('general', 'pet_donation_product_id');
+
+        add_settings_field(
+            'pet_donation_product_id',
+            'Donation Product ID',
+            'pet_donation_product_id_callback',
+            'general'
+        );
+    }
+
+    function pet_donation_product_id_callback()
+    {
+        $value = get_option('pet_donation_product_id', '');
+        echo '<input type="number" id="pet_donation_product_id" name="pet_donation_product_id" value="' . esc_attr($value) . '" />';
+        echo '<p class="description">Enter the WooCommerce product ID to use for donations</p>';
+    }
+
+    // Debug function to check if donation product exists
+    add_action('wp_ajax_check_donation_product', 'pet_check_donation_product');
+    add_action('wp_ajax_nopriv_check_donation_product', 'pet_check_donation_product');
+    function pet_check_donation_product()
+    {
+        $donation_product_id = get_option('pet_donation_product_id');
+        $product = $donation_product_id ? wc_get_product($donation_product_id) : null;
+
+        wp_send_json(array(
+            'product_id' => $donation_product_id,
+            'product_exists' => $product ? true : false,
+            'product_name' => $product ? $product->get_name() : 'Not found'
+        ));
+    }
+
+
+
+
+
+
+
+    /**
+     * Enqueue Google Fonts for Certificate
+     */
+    function pet_certificate_fonts()
+    {
+        if (is_page_template('page-templates/page-certificate.php')) {
+            wp_enqueue_style('playfair-display', 'https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap', array(), null);
+        }
+    }
+    add_action('wp_enqueue_scripts', 'pet_certificate_fonts');
+
+
+
+
+
+
+
+
+
+
+
+
+
+?>

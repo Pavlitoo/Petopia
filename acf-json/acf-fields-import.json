@@ -87,14 +87,15 @@
                 "Терміново": "Терміново",
                 "Особливі потреби": "Особливі потреби",
                 "Старший вік": "Старший вік"
-            },
-            "default_value": "",
-            "allow_null": 0,
-            "multiple": 0,
-            "ui": 0,
-            "return_format": "value",
-            "ajax": 0,
-            "placeholder": ""
+            }
+        },
+        {
+            "key": "field_animal_video",
+            "label": "Відео-привіт",
+            "name": "animal_video",
+            "type": "url",
+            "instructions": "Вставте URL відео з YouTube",
+            "required": 0
         }
     ],
     "location": [

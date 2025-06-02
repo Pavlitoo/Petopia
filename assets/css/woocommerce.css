@@ -389,6 +389,7 @@
     margin: 0;
     font-size: 14px;
     text-transform: uppercase;
+    animation: pulse 2s infinite;
 }
 
 /* Star Rating */
@@ -1941,79 +1942,724 @@
 /* Related Products Section */
 .related.products {
     margin-top: 60px;
-    padding-top: 40px;
-    border-top: 1px solid var(--woo-border);
+    padding: 50px 20px 40px;
+    background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
     width: 100%;
     max-width: 100%;
+    clear: both;
+    display: block !important;
+    float: none !important;
+    position: relative !important;
+    overflow: visible !important;
+    box-sizing: border-box !important;
+    border: none;
 }
 
 .related.products h2 {
-    font-size: 2em;
-    margin-bottom: 40px;
+    font-size: 2.5em;
+    font-weight: 700;
+    margin-bottom: 50px;
     text-align: center;
-    width: 100%;
-    color: var(--woo-text);
+    width: 100% !important;
+    color: #2c3e50;
+    display: block !important;
+    clear: both !important;
+    float: none !important;
+    position: relative !important;
+    background-color: var(--woo-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.related.products ul.products {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 30px;
-    margin: 0;
-    padding: 0;
-    list-style: none;
+.related.products ul.products,
+.related.products ul.products.columns-3 {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)) !important;
+    gap: 30px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    list-style: none !important;
     width: 100% !important;
-    max-width: 100%;
+    max-width: none !important;
+    min-width: 100% !important;
+    clear: both !important;
+    float: none !important;
+    overflow: visible !important;
+    box-sizing: border-box !important;
+    position: relative !important;
+    /* Перевизначаємо стандартні WooCommerce стилі */
+    column-count: unset !important;
+    column-gap: unset !important;
+    column-fill: unset !important;
 }
 
 .related.products ul.products::before,
 .related.products ul.products::after {
     display: none !important;
+    content: none !important;
 }
 
 .related.products ul.products li.product {
     float: none !important;
+    display: block !important;
     margin: 0 !important;
     width: 100% !important;
-    padding: 0;
+    max-width: none !important;
+    min-width: 0 !important;
+    padding: 0 !important;
+    position: relative !important;
+    clear: none !important;
+    box-sizing: border-box !important;
+    break-inside: auto !important;
+    page-break-inside: auto !important;
+    aspect-ratio: auto !important;
+    
+    /* Красивий дизайн картки товару */
+    background: #ffffff;
+    border-radius: 20px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(10px);
+}
+
+.related.products ul.products li.product:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    border-color: rgba(102, 126, 234, 0.3);
+}
+
+/* Додаткове підсилення для елементів товару */
+.related.products .product,
+.related.products .wc-block-grid__product,
+.related.products .type-product {
+    float: none !important;
+    width: 100% !important;
+    margin: 0 !important;
+    display: block !important;
+    position: relative !important;
 }
 
 .related.products ul.products li.product img {
-    width: 100%;
-    height: auto;
+    width: 100% !important;
+    height: 250px !important;
+    max-width: none !important;
     object-fit: cover;
-    border-radius: 8px;
+    border-radius: 0;
+    display: block;
+    transition: all 0.4s ease;
+    position: relative;
 }
 
-.related.products ul.products li.product h2 {
-    font-size: 1.2em;
-    text-align: left;
-    margin: 15px 0 10px;
+.related.products ul.products li.product:hover img {
+    transform: scale(1.05);
+}
+
+/* Overlay effect для зображення */
+.related.products ul.products li.product::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 250px;
+    border-radius: 20px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 1;
+    pointer-events: none;
+}
+
+.related.products ul.products li.product:hover::before {
+    opacity: 1;
+}
+
+.related.products ul.products li.product h2,
+.related.products ul.products li.product .woocommerce-loop-product__title {
+    font-size: 1.3em !important;
+    font-weight: 600 !important;
+    text-align: left !important;
+    margin: 20px 20px 10px !important;
+    clear: both;
+    color: #2c3e50;
+    line-height: 1.4;
+    position: relative;
+    z-index: 2;
+    transition: color 0.3s ease;
+}
+
+.related.products ul.products li.product:hover h2,
+.related.products ul.products li.product:hover .woocommerce-loop-product__title {
+    color: #667eea;
 }
 
 .related.products ul.products li.product .price {
-    font-size: 1.1em;
-    color: var(--woo-primary);
-    margin-bottom: 15px;
+    font-size: 1.4em;
+    font-weight: 700;
+    background-color: var(--woo-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin: 0 20px 20px;
+    display: block;
+    clear: both;
+    position: relative;
+    z-index: 2;
 }
 
-.related.products ul.products li.product .button {
-    width: 100%;
+.related.products ul.products li.product .button,
+.related.products ul.products li.product .add_to_cart_button {
+    width: calc(100% - 40px);
+    margin: 0 20px 20px;
+    padding: 12px 24px;
+    background-color: var(--woo-primary);
+    color: white;
+    border: none;
+    border-radius: 25px;
+    font-weight: 600;
+    font-size: 1em;
     text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    display: block;
+    clear: both;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+    position: relative;
+    z-index: 2;
+    overflow: hidden;
 }
 
-@media (max-width: 768px) {
+.related.products ul.products li.product .button:hover,
+.related.products ul.products li.product .add_to_cart_button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+    background-color: var(--woo-primary);
+}
+
+.related.products ul.products li.product .button::before,
+.related.products ul.products li.product .add_to_cart_button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s ease;
+}
+
+.related.products ul.products li.product .button:hover::before,
+.related.products ul.products li.product .add_to_cart_button:hover::before {
+    left: 100%;
+}
+
+/* Додаткові правила для різних типів товарів WooCommerce */
+.related.products .products .product-item,
+.related.products .products .product-card {
+    float: none !important;
+    width: 100% !important;
+}
+
+/* Медіа-запити для різних розмірів екранів */
+
+/* Великі екрани (Desktop) */
+@media (min-width: 1400px) {
     .related.products ul.products {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(4, 1fr) !important;
+        gap: 40px !important;
+        max-width: 1400px;
+        margin: 0 auto;
+    }
+    
+    .related.products ul.products li.product img {
+        height: 280px !important;
+    }
+    
+    .related.products ul.products li.product::before {
+        height: 280px;
+    }
+}
+
+/* Середні великі екрани */
+@media (min-width: 1200px) and (max-width: 1399px) {
+    .related.products ul.products {
+        grid-template-columns: repeat(3, 1fr) !important;
+        gap: 35px !important;
+    }
+    
+    .related.products ul.products li.product img {
+        height: 260px !important;
+    }
+    
+    .related.products ul.products li.product::before {
+        height: 260px;
+    }
+}
+
+/* Середні екрани */
+@media (min-width: 992px) and (max-width: 1199px) {
+    .related.products ul.products {
+        grid-template-columns: repeat(3, 1fr) !important;
+        gap: 30px !important;
+    }
+    
+    .related.products ul.products li.product img {
+        height: 240px !important;
+    }
+    
+    .related.products ul.products li.product::before {
+        height: 240px;
+    }
+}
+
+/* Малі екрани (Tablets) */
+@media (min-width: 768px) and (max-width: 991px) {
+    .related.products {
+        padding: 40px 15px 30px;
+        border-radius: 15px;
+    }
+    
+    .related.products ul.products {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 25px !important;
+    }
+    
+    .related.products h2 {
+        font-size: 2.2em;
+        margin-bottom: 35px;
+    }
+    
+    .related.products ul.products li.product img {
+        height: 220px !important;
+    }
+    
+    .related.products ul.products li.product::before {
+        height: 220px;
+    }
+    
+    .related.products ul.products li.product {
+        border-radius: 15px;
+    }
+}
+
+/* Дуже малі екрани (Mobile) */
+@media (max-width: 767px) {
+    .related.products {
+        margin-top: 40px;
+        padding: 30px 15px 25px;
+        border-radius: 15px;
+    }
+    
+    .related.products ul.products {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 20px !important;
+    }
+    
+    .related.products h2 {
+        font-size: 1.8em;
+        margin-bottom: 30px;
+    }
+    
+    .related.products ul.products li.product {
+        border-radius: 12px;
+    }
+    
+    .related.products ul.products li.product img {
+        height: 180px !important;
+    }
+    
+    .related.products ul.products li.product::before {
+        height: 180px;
+    }
+    
+    .related.products ul.products li.product h2,
+    .related.products ul.products li.product .woocommerce-loop-product__title {
+        font-size: 1.1em !important;
+        margin: 15px 15px 8px !important;
+    }
+    
+    .related.products ul.products li.product .price {
+        font-size: 1.2em;
+        margin: 0 15px 15px;
+    }
+    
+    .related.products ul.products li.product .button,
+    .related.products ul.products li.product .add_to_cart_button {
+        width: calc(100% - 30px);
+        margin: 0 15px 15px;
+        padding: 10px 20px;
+        font-size: 0.9em;
+        border-radius: 20px;
+    }
+}
+
+/* Найменші екрани */
+@media (max-width: 480px) {
+    .related.products {
+        padding: 25px 10px 20px;
+        margin-top: 30px;
+    }
+    
+    .related.products ul.products {
+        grid-template-columns: 1fr !important;
+        gap: 20px !important;
+    }
+    
+    .related.products h2 {
+        font-size: 1.6em;
+        margin-bottom: 25px;
+    }
+    
+    .related.products ul.products li.product img {
+        height: 200px !important;
+    }
+    
+    .related.products ul.products li.product::before {
+        height: 200px;
+    }
+}
+
+/* Спеціальні правила для контейнерів з обмеженою шириною */
+@media (min-width: 768px) {
+    .container .related.products ul.products,
+    .site-content .related.products ul.products {
+        max-width: 100%;
+    }
+}
+
+/* Додаткове правило для запобігання конфліктів з темою */
+.woocommerce .related.products ul.products li.product,
+.woocommerce-page .related.products ul.products li.product {
+    float: none !important;
+    width: auto !important;
+    margin-right: 0 !important;
+    margin-left: 0 !important;
+}
+
+/* Примусове блочне відображення всієї секції */
+.related.products,
+.woocommerce .related.products,
+.woocommerce-page .related.products {
+    display: block !important;
+    width: 100% !important;
+    clear: both !important;
+    float: none !important;
+}
+
+/* Відключення flex для батьківських контейнерів */
+.single-product .related.products,
+.woocommerce-page .related.products {
+    flex: none !important;
+    align-self: stretch !important;
+}
+
+/* Забезпечення повної ширини */
+.product .related.products,
+.summary + .related.products {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+}
+
+/* Додаткові правила для покращення відображення на різних пристроях */
+@media (min-width: 768px) and (max-width: 1024px) {
+    /* Спеціально для планшетів в альбомній орієнтації */
+    .related.products ul.products {
+        grid-template-columns: repeat(3, 1fr) !important;
+        gap: 25px !important;
+    }
+}
+
+/* Правила для високої щільності пікселів */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    .related.products ul.products li.product img {
+        image-rendering: -webkit-optimize-contrast;
+        image-rendering: crisp-edges;
+    }
+}
+
+/* Додаткові анімації та ефекти */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(102, 126, 234, 0.4);
+    }
+    70% {
+        box-shadow: 0 0 0 10px rgba(102, 126, 234, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(102, 126, 234, 0);
+    }
+}
+
+.related.products ul.products li.product {
+    animation: fadeInUp 0.6s ease-out;
+    animation-fill-mode: both;
+}
+
+.related.products ul.products li.product:nth-child(1) { animation-delay: 0.1s; }
+.related.products ul.products li.product:nth-child(2) { animation-delay: 0.2s; }
+.related.products ul.products li.product:nth-child(3) { animation-delay: 0.3s; }
+.related.products ul.products li.product:nth-child(4) { animation-delay: 0.4s; }
+.related.products ul.products li.product:nth-child(5) { animation-delay: 0.5s; }
+.related.products ul.products li.product:nth-child(6) { animation-delay: 0.6s; }
+
+/* Особливий ефект для кнопки "В наявності" */
+.related.products ul.products li.product .button.product_type_simple:focus,
+.related.products ul.products li.product .add_to_cart_button:focus {
+    animation: pulse 1.5s infinite;
+}
+
+/* Додатковий глібальний стиль для покращення */
+.related.products {
+    position: relative;
+}
+
+.related.products::before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    right: -10px;
+    bottom: -10px;
+    background-color: var(--woo-primary);
+    border-radius: 25px;
+    opacity: 0.1;
+    z-index: -1;
+    filter: blur(20px);
+}
+
+/* Стиль для "розпродажу" або знижки */
+.related.products ul.products li.product .onsale {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background-color: var(--woo-sale);
+    color: white;
+    padding: 8px 12px;
+    border-radius: 20px;
+    font-size: 0.9em;
+    font-weight: 600;
+    z-index: 3;
+    box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+    animation: pulse 2s infinite;
+}
+
+/* Додаткові ефекти для інтерактивності */
+.related.products ul.products li.product .price del {
+    opacity: 0.6;
+    font-size: 0.9em;
+    margin-right: 8px;
+}
+
+.related.products ul.products li.product .price ins {
+    text-decoration: none;
+    font-weight: 800;
+}
+
+
+
+
+
+
+
+
+/* WooCommerce Ordering (Сортування) - Розташування справа */
+
+/* Основний контейнер для вирівнювання справа */
+.woocommerce-ordering {
+    position: relative;
+    display: inline-block;
+    margin-bottom: 30px;
+    width: 100%;
+    max-width: 280px;
+    margin-left: auto; /* Це зсуває елемент праворуч */
+    float: right; /* Альтернативний спосіб для старих браузерів */
+}
+
+/* Якщо у вас є контейнер з результатами та сортуванням */
+.woocommerce-ordering-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+/* Альтернативний варіант - використання flexbox для батьківського контейнера */
+.woocommerce .woocommerce-result-count {
+    order: 1; /* Результати ліворуч */
+}
+
+.woocommerce .woocommerce-ordering {
+    order: 2; /* Сортування праворуч */
+    margin-left: auto;
+    float: none !important; /* Скидаємо float якщо він є */
+}
+
+/* Для стандартного WooCommerce макету */
+.woocommerce .woocommerce-ordering,
+.woocommerce-page .woocommerce-ordering {
+    float: right !important; /* Основний спосіб для WooCommerce */
+    clear: none !important;
+    margin: 0 0 30px 0 !important;
+}
+
+/* Якщо потрібно центрувати весь блок сортування */
+.woocommerce-ordering-wrapper {
+    text-align: right;
+    margin-bottom: 30px;
+}
+
+.woocommerce-ordering-wrapper .woocommerce-ordering {
+    display: inline-block;
+    float: none;
+    margin-left: 0;
+}
+
+/* Стилізація селекту (з вашого оригінального коду) */
+.woocommerce-ordering select,
+.woocommerce-ordering .orderby {
+    width: 100% !important;
+    padding: 12px 45px 12px 20px !important;
+    font-size: 1em !important;
+    font-weight: 500 !important;
+    color: #2c3e50 !important;
+    background: #ffffff !important;
+    border: 2px solid #e1e8ed !important;
+    border-radius: 25px !important;
+    outline: none !important;
+    cursor: pointer !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    appearance: none !important;
+    -webkit-appearance: none !important;
+    -moz-appearance: none !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08) !important;
+    background-image: none !important;
+    font-family: inherit !important;
+    line-height: 1.4 !important;
+    height: auto !important;
+    min-height: 48px !important;
+    box-sizing: border-box !important;
+}
+
+/* Власна стрілка для селекту */
+.woocommerce-ordering::after {
+    content: '';
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 8px solid #FF751F;
+    pointer-events: none;
+    transition: all 0.3s ease;
+    z-index: 2;
+}
+
+/* Ефекти наведення */
+.woocommerce-ordering select:hover,
+.woocommerce-ordering .orderby:hover {
+    border-color: #E56A1C !important;
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.15) !important;
+    transform: translateY(-2px) !important;
+}
+
+.woocommerce-ordering select:focus,
+.woocommerce-ordering .orderby:focus {
+    border-color: #FF751F !important;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2), 0 8px 25px rgba(102, 126, 234, 0.15) !important;
+    transform: translateY(-2px) !important;
+}
+
+.woocommerce-ordering:hover::after {
+    border-top-color: #E56A1C;
+    transform: translateY(-50%) rotate(180deg);
+}
+
+/* Медіа-запити для мобільних пристроїв */
+@media (max-width: 768px) {
+    .woocommerce-ordering {
+        max-width: 100%;
+        width: 100%;
+        float: none !important;
+        margin-left: 0;
+        text-align: center;
+    }
+    
+    .woocommerce-ordering select,
+    .woocommerce-ordering .orderby {
+        font-size: 0.95em !important;
+        padding: 10px 40px 10px 18px !important;
+        min-height: 44px !important;
+    }
+    
+    .woocommerce-ordering-container {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 15px;
+    }
+    
+    /* На мобільних пристроях можна залишити по центру */
+    .woocommerce .woocommerce-ordering {
+        order: 1;
+    }
+    
+    .woocommerce .woocommerce-result-count {
+        order: 2;
+        text-align: center;
     }
 }
 
 @media (max-width: 480px) {
-    .related.products ul.products {
-        grid-template-columns: 1fr;
-    }
-    
-    .related.products h2 {
-        font-size: 1.5em;
+    .woocommerce-ordering select,
+    .woocommerce-ordering .orderby {
+        font-size: 0.9em !important;
+        padding: 8px 35px 8px 15px !important;
+        min-height: 40px !important;
+        border-radius: 20px !important;
     }
 }
+
+/* RTL підтримка */
+[dir="rtl"] .woocommerce-ordering {
+    float: left !important;
+    margin-right: auto;
+    margin-left: 0;
+}
+
+[dir="rtl"] .woocommerce-ordering::after {
+    right: auto;
+    left: 15px;
+}
+
+[dir="rtl"] .woocommerce-ordering select,
+[dir="rtl"] .woocommerce-ordering .orderby {
+    padding: 12px 20px 12px 45px !important;
+}
+
+
+
+

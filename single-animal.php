@@ -72,17 +72,52 @@ $tag_translations = array(
                         <?php the_content(); ?>
                     </div>
 
+                    <?php
+                    $video_url = get_field('animal_video');
+                    if ($video_url) :
+                        // Extract video ID from YouTube URL
+                        preg_match('/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/', $video_url, $matches);
+                        if (!empty($matches[1])) :
+                            $video_id = $matches[1];
+                    ?>
+                            <div class="animal-video-greeting">
+                                <h3><?php echo esc_html__('Відео-привіт', 'pet'); ?></h3>
+                                <div class="video-wrapper">
+                                    <iframe
+                                        width="100%"
+                                        height="315"
+                                        src="https://www.youtube.com/embed/<?php echo esc_attr($video_id); ?>"
+                                        frameborder="0"
+                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                        allowfullscreen>
+                                    </iframe>
+                                </div>
+                            </div>
+                    <?php
+                        endif;
+                    endif;
+                    ?>
+
                     <div class="animal-single-actions">
                         <button class="btn btn-primary" data-open-adoption-form>
                             <?php echo esc_html__('Прихистити', 'pet'); ?>
                         </button>
-                        <a href="javascript:void(0);" class="btn btn-outline share-btn" onclick="copyCurrentUrl()">
+                        <button class="btn btn-outline share-btn">
                             <?php echo esc_html__('Поділитися', 'pet'); ?>
-                        </a>
+                        </button>
                     </div>
 
-                    <!-- Додайте цей код перед закриваючим тегом </article> або </main> -->
                     <script>
+                        document.addEventListener('DOMContentLoaded', function() {
+                            const shareBtn = document.querySelector('.share-btn');
+                            if (shareBtn) {
+                                shareBtn.addEventListener('click', function(e) {
+                                    e.preventDefault();
+                                    copyCurrentUrl();
+                                });
+                            }
+                        });
+
                         function copyCurrentUrl() {
                             const pageUrl = window.location.href;
 

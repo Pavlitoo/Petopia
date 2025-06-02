@@ -33,36 +33,71 @@ document.addEventListener('DOMContentLoaded', function() {
             // Validate name
             const name = formData.get('name');
             if (!name || !nameRegex.test(name)) {
-                errors.push("Будь ласка, введіть коректне ім'я (2-50 символів)");
+                errors.push({
+                    field: 'name',
+                    message: "Будь ласка, введіть коректне ім'я (2-50 символів)"
+                });
             }
 
             // Validate email
             const email = formData.get('email');
             if (!email || !emailRegex.test(email)) {
-                errors.push('Будь ласка, введіть коректний email');
+                errors.push({
+                    field: 'email',
+                    message: 'Будь ласка, введіть коректний email'
+                });
             }
 
             // Validate phone
             const phone = formData.get('phone');
             if (!phone || !phoneRegex.test(phone)) {
-                errors.push('Будь ласка, введіть коректний номер телефону (+380XXXXXXXXX)');
+                errors.push({
+                    field: 'phone',
+                    message: 'Будь ласка, введіть коректний номер телефону (+380XXXXXXXXX)'
+                });
             }
 
             return errors;
         }
 
-        // Show error messages
-        function showErrors(errors, form) {
-            const errorContainer = document.createElement('div');
-            errorContainer.className = 'form-errors';
-            errorContainer.innerHTML = errors.map(error => `<p class="error-message">${error}</p>`).join('');
-            
-            const existingErrors = form.querySelector('.form-errors');
-            if (existingErrors) {
-                existingErrors.remove();
+        // Show error message for a specific field
+        function showFieldError(field, message) {
+            const inputElement = document.getElementById(field);
+            if (inputElement) {
+                inputElement.classList.add('error');
+                const errorDiv = inputElement.parentElement.querySelector('.error-message');
+                if (!errorDiv) {
+                    const newErrorDiv = document.createElement('div');
+                    newErrorDiv.className = 'error-message';
+                    inputElement.parentElement.appendChild(newErrorDiv);
+                }
+                inputElement.parentElement.querySelector('.error-message').textContent = message;
+                inputElement.parentElement.querySelector('.error-message').style.display = 'block';
             }
-            
-            form.insertBefore(errorContainer, form.firstChild);
+        }
+
+        // Clear error message for a specific field
+        function clearFieldError(field) {
+            const inputElement = document.getElementById(field);
+            if (inputElement) {
+                inputElement.classList.remove('error');
+                const errorDiv = inputElement.parentElement.querySelector('.error-message');
+                if (errorDiv) {
+                    errorDiv.textContent = '';
+                    errorDiv.style.display = 'none';
+                }
+            }
+        }
+
+        // Clear all errors
+        function clearAllErrors() {
+            const errorMessages = adoptionForm.querySelectorAll('.error-message');
+            const errorInputs = adoptionForm.querySelectorAll('.error');
+            errorMessages.forEach(error => {
+                error.textContent = '';
+                error.style.display = 'none';
+            });
+            errorInputs.forEach(input => input.classList.remove('error'));
         }
 
         // Handle form submission
@@ -73,8 +108,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 const formData = new FormData(this);
                 const errors = validateAdoptionForm(formData);
 
+                // Clear previous errors
+                clearAllErrors();
+
                 if (errors.length > 0) {
-                    showErrors(errors, this);
+                    errors.forEach(error => {
+                        showFieldError(error.field, error.message);
+                    });
                     return;
                 }
 
@@ -113,11 +153,29 @@ document.addEventListener('DOMContentLoaded', function() {
                     }
                 } catch (error) {
                     console.error('Error:', error);
-                    showErrors(['Виникла помилка. Спробуйте ще раз пізніше.'], this);
+                    showFieldError('name', 'Виникла помилка. Спробуйте ще раз пізніше.');
                     
                     submitButton.disabled = false;
                     submitButton.textContent = originalText;
                 }
+            });
+
+            // Add real-time validation
+            const formInputs = adoptionForm.querySelectorAll('input, textarea');
+            formInputs.forEach(input => {
+                input.addEventListener('input', function() {
+                    clearFieldError(this.id);
+                });
+
+                input.addEventListener('blur', function() {
+                    const formData = new FormData();
+                    formData.set(this.name, this.value);
+                    const errors = validateAdoptionForm(formData);
+                    const fieldError = errors.find(error => error.field === this.id);
+                    if (fieldError) {
+                        showFieldError(fieldError.field, fieldError.message);
+                    }
+                });
             });
         }
     }

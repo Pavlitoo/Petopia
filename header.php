@@ -57,7 +57,7 @@
                     </a>
                 </div>
 
-                <button class="mobile-menu-btn" aria-label="Меню">
+                <button class="mobile-menu-btn" aria-label="Відкрити меню" aria-expanded="false">
                     <span></span>
                     <span></span>
                     <span></span>
@@ -67,20 +67,30 @@
     </header>
 
     <div class="mobile-menu">
-        <?php
-        wp_nav_menu(array(
-            'theme_location' => 'primary',
-            'menu_class' => 'nav-menu',
-            'container' => false,
-        ));
-        ?>
-        <div class="mobile-actions">
+        <div class="mobile-menu-content">
+            <button class="mobile-menu-close" aria-label="Закрити меню">
+                <i class="fa-solid fa-arrow-left"></i>
+            </button>
+            <?php
+            wp_nav_menu(array(
+                'theme_location' => 'primary',
+                'menu_class' => 'mobile-nav-menu',
+                'container' => false,
+            ));
+            ?>
+        </div>
+
+        <div class="mobile-menu-footer">
             <a href="<?php echo esc_url(wc_get_page_permalink('myaccount')); ?>" class="mobile-action-link">
                 <i class="fas fa-user"></i>
+                <span>Особистий кабінет</span>
             </a>
             <a href="<?php echo esc_url(wc_get_cart_url()); ?>" class="mobile-action-link">
                 <i class="fas fa-shopping-cart"></i>
-                <span class="mobile-cart-count"><?php echo WC()->cart->get_cart_contents_count(); ?></span>
+                <span>Кошик</span>
+                <?php if (WC()->cart->get_cart_contents_count() > 0) : ?>
+                    <span class="mobile-cart-count"><?php echo WC()->cart->get_cart_contents_count(); ?></span>
+                <?php endif; ?>
             </a>
         </div>
     </div>

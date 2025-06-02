@@ -197,12 +197,29 @@
                 "Особливі потреби": "Особливі потреби",
                 "Старший вік": "Старший вік"
             },
-            "default_value": false,
-            "allow_null": 0,
             "multiple": 0,
+            "allow_null": 0,
+            "default_value": false,
             "ui": 0,
-            "return_format": "value",
             "ajax": 0,
+            "placeholder": "",
+            "return_format": "value"
+        },
+        {
+            "key": "field_animal_video",
+            "label": "Відео-привіт",
+            "name": "animal_video",
+            "aria-label": "",
+            "type": "url",
+            "instructions": "Вставте URL відео з YouTube",
+            "required": 0,
+            "conditional_logic": false,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
             "placeholder": ""
         }
     ],
@@ -224,5 +241,5 @@
     "active": true,
     "description": "",
     "show_in_rest": false,
-    "modified": 1747213323
+    "modified": 1748456437
 }

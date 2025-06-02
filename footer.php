@@ -26,7 +26,7 @@
                 <!-- Соціальні мережі -->
                 <div class="footer-social">
                     <a href="#" aria-label="Facebook" class="social-icon facebook"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#" aria-label="Instagram" class="social-icon instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="https://www.instagram.com/petopia.ua/" aria-label="Instagram" class="social-icon instagram"><i class="fab fa-instagram"></i></a>
                     <a href="#" aria-label="Telegram" class="social-icon telegram"><i class="fab fa-telegram"></i></a>
                     <a href="#" aria-label="YouTube" class="social-icon youtube"><i class="fab fa-youtube"></i></a>
                 </div>
@@ -63,13 +63,13 @@
                 <div class="footer-links">
                     <h3 class="footer-title"><?php echo esc_html__('Інформація', 'pet'); ?></h3>
                     <ul class="footer-menu">
-                        <li><a href="<?php echo esc_url(home_url('/info/adoption-rules')); ?>"><?php echo esc_html__('Правила всиновлення', 'pet'); ?></a></li>
-                        <li><a href="<?php echo esc_url(home_url('/info/volunteer-guide')); ?>"><?php echo esc_html__('Гайд для волонтерів', 'pet'); ?></a></li>
-                        <li><a href="<?php echo esc_url(home_url('/info/donation-usage')); ?>"><?php echo esc_html__('Використання пожертв', 'pet'); ?></a></li>
-                        <li><a href="<?php echo esc_url(home_url('/info/success-stories')); ?>"><?php echo esc_html__('Історії успіху', 'pet'); ?></a></li>
-                        <li><a href="<?php echo esc_url(home_url('/info/material-needs')); ?>"><?php echo esc_html__('Матеріальні потреби', 'pet'); ?></a></li>
-                        <li><a href="<?php echo esc_url(home_url('/info/share-info')); ?>"><?php echo esc_html__('Поширення інформації', 'pet'); ?></a></li>
-                        <li><a href="<?php echo esc_url(home_url('/info/faq')); ?>"><?php echo esc_html__('Питання та відповіді', 'pet'); ?></a></li>
+                        <li><a href="<?php echo esc_url(home_url('/adoption-rules')); ?>"><?php echo esc_html__('Правила всиновлення', 'pet'); ?></a></li>
+                        <li><a href="<?php echo esc_url(home_url('/volunteer-guide')); ?>"><?php echo esc_html__('Гайд для волонтерів', 'pet'); ?></a></li>
+                        <li><a href="<?php echo esc_url(home_url('/donation-usage')); ?>"><?php echo esc_html__('Використання пожертв', 'pet'); ?></a></li>
+                        <li><a href="<?php echo esc_url(home_url('/success-stories')); ?>"><?php echo esc_html__('Історії успіху', 'pet'); ?></a></li>
+                        <li><a href="<?php echo esc_url(home_url('/material-needs')); ?>"><?php echo esc_html__('Матеріальні потреби', 'pet'); ?></a></li>
+                        <li><a href="<?php echo esc_url(home_url('/share-info')); ?>"><?php echo esc_html__('Поширення інформації', 'pet'); ?></a></li>
+                        <li><a href="<?php echo esc_url(home_url('/faq')); ?>"><?php echo esc_html__('Питання та відповіді', 'pet'); ?></a></li>
                     </ul>
                 </div>
 
@@ -83,7 +83,7 @@
 
                     <!-- Кнопка підтримки -->
                     <div class="footer-cta">
-                        <a href="<?php echo esc_url(home_url('/help')); ?>" class="support-button">
+                        <a href="<?php echo esc_url(home_url('/donate')); ?>" class="support-button">
                             <?php echo esc_html__('Підтримати притулок', 'pet'); ?>
                         </a>
                     </div>
