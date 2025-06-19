@@ -325,7 +325,7 @@
 @media (max-width: 576px) {
     .animal-single-image {
         max-height: 400px;
-        max-width: 250px;
+        max-width: 200px;
     }
 }
 
@@ -896,5 +896,9 @@
         display: none;
     }
 }
+
+
+
+
 
 

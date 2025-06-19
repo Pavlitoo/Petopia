@@ -19,7 +19,7 @@ get_header();
 
     <section class="animals-section">
         <div class="container">
-            <form class="animal-filters">
+            <form class="animal-filters" id="animal-filters">
                 <div class="filters-grid">
                     <div class="filter-group">
                         <h4><?php echo esc_html__('Тип тварини', 'pet'); ?></h4>
@@ -57,47 +57,65 @@ get_header();
                 </div>
             </form>
 
-            <?php
-            $paged = (get_query_var('paged')) ? get_query_var('paged') : 1;
-            $args = array(
-                'post_type' => 'animal',
-                'posts_per_page' => 9,
-                'paged' => $paged
-            );
+            <div class="animals-grid">
+                <?php
+                $args = array(
+                    'post_type' => 'animal',
+                    'posts_per_page' => -1 // Show all animals
+                );
 
-            $animals_query = new WP_Query($args);
+                $animals_query = new WP_Query($args);
 
-            if ($animals_query->have_posts()) :
-            ?>
-                <div class="animals-grid">
-                    <?php
+                if ($animals_query->have_posts()) :
                     while ($animals_query->have_posts()) :
                         $animals_query->the_post();
                         get_template_part('template-parts/content', 'animal');
                     endwhile;
-                    ?>
-                </div>
-
-                <div class="pagination">
-                    <?php
-                    echo paginate_links(array(
-                        'total' => $animals_query->max_num_pages,
-                        'current' => $paged,
-                        'prev_text' => '&larr; ' . __('Попередня', 'pet'),
-                        'next_text' => __('Наступна', 'pet') . ' &rarr;'
-                    ));
-                    ?>
-                </div>
-
-            <?php
-            else :
-                echo '<p class="no-animals">' . esc_html__('Наразі немає тварин для показу.', 'pet') . '</p>';
-            endif;
-
-            wp_reset_postdata();
-            ?>
+                    wp_reset_postdata();
+                else :
+                    echo '<p class="no-animals">' . esc_html__('Наразі немає тварин для показу.', 'pet') . '</p>';
+                endif;
+                ?>
+            </div>
         </div>
     </section>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const filterForm = document.getElementById('animal-filters');
+            const animalCards = document.querySelectorAll('.animal-card');
+            const clearFiltersBtn = document.querySelector('.clear-filters');
+
+            function filterAnimals() {
+                const type = filterForm.querySelector('[name="animal_type"]').value;
+                const size = filterForm.querySelector('[name="animal_size"]').value;
+                const health = filterForm.querySelector('[name="animal_health"]').value;
+
+                animalCards.forEach(card => {
+                    const matchType = !type || card.dataset.type === type;
+                    const matchSize = !size || card.dataset.size === size.toLowerCase();
+                    const matchHealth = !health || card.dataset.health === health;
+
+                    if (matchType && matchSize && matchHealth) {
+                        card.style.display = '';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            }
+
+            // Add event listeners to filter controls
+            filterForm.querySelectorAll('select').forEach(select => {
+                select.addEventListener('change', filterAnimals);
+            });
+
+            // Clear filters
+            clearFiltersBtn.addEventListener('click', function() {
+                filterForm.reset();
+                animalCards.forEach(card => card.style.display = '');
+            });
+        });
+    </script>
 </main>
 
 <?php get_footer(); ?>

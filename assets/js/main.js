@@ -197,6 +197,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
     const mobileMenu = document.querySelector('.mobile-menu');
     const mobileMenuOverlay = document.querySelector('.mobile-menu-overlay');
+    const mobileMenuClose = document.querySelector('.mobile-menu-close'); // Додано цю змінну
     
     function closeMobileMenu() {
         if (mobileMenuBtn) mobileMenuBtn.classList.remove('active');
@@ -214,6 +215,11 @@ document.addEventListener('DOMContentLoaded', function() {
             document.body.classList.toggle('menu-open');
             this.setAttribute('aria-expanded', this.classList.contains('active'));
         });
+    }
+
+    // Додано обробник для кнопки закриття меню
+    if (mobileMenuClose) {
+        mobileMenuClose.addEventListener('click', closeMobileMenu);
     }
 
     if (mobileMenuOverlay) {

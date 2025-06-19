@@ -832,6 +832,7 @@ h2 {
     flex-wrap: wrap;
     justify-content: space-between;
     margin-bottom: 40px;
+    
 }
 
 /* Блок з логотипом та інформацією */
@@ -851,6 +852,7 @@ h2 {
 
 .custom-logo-link {
     display: inline-block;
+    text-decoration: none;
 }
 
 .custom-logo-text {
@@ -883,6 +885,7 @@ h2 {
     margin-right: 12px;
     color: #ffffff;
     transition: all 0.3s ease;
+    text-decoration: none;
 }
 
 .social-icon:hover {
@@ -4978,6 +4981,7 @@ body.menu-open {
 
 .certificate-actions {
     margin-top: 30px;
+    margin-bottom: 30px;
 }
 
 #downloadCertificate {
@@ -5121,6 +5125,7 @@ body.menu-open {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     padding: 2rem;
     border-radius: 20px;
+    margin-top: 30px;
     margin-bottom: 2rem;
     box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
     position: relative;
@@ -5566,6 +5571,184 @@ body.menu-open {
         font-size: 0.9rem;
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+/* Add to your existing style.css */
+
+.login-required-section {
+            padding: 80px 0;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: calc(100vh - 300px);
+        }
+
+        .login-required-content {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .login-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #FF751F 0%, #ff6b47 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 30px;
+            color: white;
+            font-size: 32px;
+            box-shadow: 0 10px 20px rgba(255, 117, 31, 0.2);
+        }
+
+        .login-required-content h1 {
+            font-size: 32px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .login-description {
+            color: #666;
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 40px;
+        }
+
+        .benefits-list {
+            background: rgba(255, 117, 31, 0.05);
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 40px;
+            text-align: left;
+        }
+
+        .benefits-list h3 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 20px;
+        }
+
+        .benefits-list ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .benefits-list li {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            color: #555;
+            font-size: 16px;
+        }
+
+        .benefits-list li:last-child {
+            margin-bottom: 0;
+        }
+
+        .benefits-list li i {
+            color: #FF751F;
+            margin-right: 15px;
+            font-size: 20px;
+            width: 24px;
+            text-align: center;
+        }
+
+        .login-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+
+        .login-buttons .btn {
+            padding: 12px 30px;
+            font-size: 16px;
+            min-width: 160px;
+        }
+
+        .login-footer {
+            border-top: 1px solid #eee;
+            padding-top: 20px;
+            margin-top: 20px;
+        }
+
+        .secure-info {
+            color: #666;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .secure-info i {
+            color: #4CAF50;
+        }
+
+        @media (max-width: 768px) {
+            .login-required-section {
+                padding: 40px 20px;
+            }
+
+            .login-required-content {
+                padding: 30px 20px;
+            }
+
+            .login-buttons {
+                flex-direction: column;
+            }
+
+            .login-buttons .btn {
+                width: 100%;
+            }
+
+            .benefits-list {
+                padding: 20px;
+            }
+
+            .login-icon {
+                width: 60px;
+                height: 60px;
+                font-size: 24px;
+                margin-bottom: 20px;
+            }
+
+            .login-required-content h1 {
+                font-size: 24px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .login-required-section {
+                padding: 20px 10px;
+            }
+
+            .benefits-list li {
+                font-size: 14px;
+            }
+
+            .benefits-list li i {
+                font-size: 16px;
+            }
+        }
+
+
+
+
 
 
 

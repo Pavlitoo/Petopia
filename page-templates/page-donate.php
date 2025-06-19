@@ -5,13 +5,68 @@
  * @package Pet
  */
 
-// Redirect non-logged in users
 if (!is_user_logged_in()) {
-    wp_redirect(wp_login_url(get_permalink()));
+    get_header();
+?>
+    <main id="primary" class="site-main">
+        <section class="login-required-section">
+            <div class="container">
+                <div class="login-required-content">
+                    <div class="login-icon">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <h1><?php echo esc_html__('Приєднуйтесь до нашої спільноти', 'pet'); ?></h1>
+                    <p class="login-description"><?php echo esc_html__('Щоб мати можливість робити пожертви та отримувати бонусні бали, вам необхідно увійти або зареєструватися на сайті.', 'pet'); ?></p>
+
+                    <div class="benefits-list">
+                        <h3><?php echo esc_html__('Переваги реєстрації:', 'pet'); ?></h3>
+                        <ul>
+                            <li>
+                                <i class="fas fa-coins"></i>
+                                <span><?php echo esc_html__('Отримуйте бонусні бали за кожну пожертву', 'pet'); ?></span>
+                            </li>
+                            <li>
+                                <i class="fas fa-history"></i>
+                                <span><?php echo esc_html__('Відстежуйте історію своїх пожертв', 'pet'); ?></span>
+                            </li>
+                            <li>
+                                <i class="fas fa-gift"></i>
+                                <span><?php echo esc_html__('Обмінюйте бали на винагороди', 'pet'); ?></span>
+                            </li>
+                            <li>
+                                <i class="fas fa-certificate"></i>
+                                <span><?php echo esc_html__('Отримуйте сертифікати за допомогу', 'pet'); ?></span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="login-buttons">
+                        <a href="<?php echo esc_url(wc_get_page_permalink('myaccount')); ?>" class="btn btn-primary">
+                            <i class="fas fa-sign-in-alt"></i>
+                            <?php echo esc_html__('Увійти', 'pet'); ?>
+                        </a>
+                        <a href="<?php echo esc_url(add_query_arg('action', 'register', wc_get_page_permalink('myaccount'))); ?>" class="btn btn-outline">
+                            <i class="fas fa-user-plus"></i>
+                            <?php echo esc_html__('Зареєструватися', 'pet'); ?>
+                        </a>
+                    </div>
+
+                    <div class="login-footer">
+                        <p class="secure-info">
+                            <i class="fas fa-lock"></i>
+                            <?php echo esc_html__('Ваші дані надійно захищені', 'pet'); ?>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+
+<?php
+    get_footer();
     exit;
 }
-
-get_header();
 
 // Get the donation product ID
 $donation_product_id = get_option('pet_donation_product_id');
@@ -20,6 +75,8 @@ $product = null;
 if ($donation_product_id) {
     $product = wc_get_product($donation_product_id);
 }
+
+get_header();
 ?>
 
 <main id="primary" class="site-main donation-page">
@@ -104,8 +161,6 @@ if ($donation_product_id) {
         </div>
     </div>
 </main>
-
-
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {

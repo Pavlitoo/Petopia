@@ -1207,9 +1207,10 @@
 /* Product Meta Styling */
 .product_meta {
     margin-top: 30px;
-    padding-top: 20px;
+    padding-left: 20px;
     border-top: 1px solid #eee;
 }
+
 
 .product_meta > span {
     display: block;
@@ -2303,7 +2304,7 @@
 /* Найменші екрани */
 @media (max-width: 480px) {
     .related.products {
-        padding: 25px 10px 20px;
+        padding: 15px 3px 8px;
         margin-top: 30px;
     }
     
@@ -2318,11 +2319,11 @@
     }
     
     .related.products ul.products li.product img {
-        height: 200px !important;
+        height: 100px !important;
     }
     
     .related.products ul.products li.product::before {
-        height: 200px;
+        height: 100px;
     }
 }
 

@@ -1077,6 +1077,34 @@ if (!function_exists('pet_woocommerce_wrapper_before')) {
 
 
 
+    /**
+     * Hide cash on delivery for donation products
+     */
+    function pet_filter_gateways($available_gateways)
+    {
+        if (!is_admin() && WC()->cart) {
+            foreach (WC()->cart->get_cart() as $cart_item) {
+                // Get the product
+                $product = $cart_item['data'];
+
+                // Check if this is the donation product
+                $donation_product_id = get_option('pet_donation_product_id');
+                if ($product && $product->get_id() == $donation_product_id) {
+                    // Remove cash on delivery
+                    unset($available_gateways['cod']);
+                    break;
+                }
+            }
+        }
+        return $available_gateways;
+    }
+    add_filter('woocommerce_available_payment_gateways', 'pet_filter_gateways', 10, 1);
+
+
+
+
+
+
 
 
 
